@@ -27,21 +27,23 @@ function getRandomAsset() {
     return assets[Math.floor(Math.random() * assets.length)];
 }
 
-// Fungsi animasi spin
-function animateSpin(slots) {
+// Fungsi animasi spin dengan kecepatan berbeda untuk setiap slot
+function startSpinAnimation(slots) {
+    slots[0].classList.add("spin1");
+    slots[1].classList.add("spin2");
+    slots[2].classList.add("spin3");
+    slots[3].classList.add("spin4");
+    slots[4].classList.add("spin5");
+}
+
+// Hentikan animasi
+function stopSpinAnimation(slots) {
     slots.forEach(slot => {
-        slot.style.animation = "spin 0.5s ease-in-out infinite";
+        slot.classList.remove("spin1", "spin2", "spin3", "spin4", "spin5");
     });
 }
 
-// Fungsi untuk menghentikan animasi
-function stopAnimation(slots) {
-    slots.forEach(slot => {
-        slot.style.animation = "";
-    });
-}
-
-// Fungsi utama untuk Spin dengan jumlah putaran
+// Fungsi untuk Spin dengan jumlah putaran
 function spin(times) {
     const totalCost = costPerSpin * times;
     if (saldo < totalCost) {
@@ -53,9 +55,8 @@ function spin(times) {
     perolehan = 0; // Reset perolehan setiap spin baru
 
     const slots = Array.from(document.querySelectorAll(".slot"));
-    animateSpin(slots);
+    startSpinAnimation(slots);
 
-    // Lakukan beberapa kali spin sesuai jumlah yang diminta
     for (let i = 0; i < times; i++) {
         setTimeout(() => {
             slots.forEach((slot, index) => {
@@ -72,7 +73,7 @@ function spin(times) {
             }
 
             if (i === times - 1) {
-                stopAnimation(slots);
+                stopSpinAnimation(slots);
                 updateStatus(); // Update tampilan saldo dan perolehan setelah spin selesai
             }
         }, i * 1000); // Jeda antar spin untuk efek animasi
@@ -96,6 +97,17 @@ function maxBet() {
 function isWinningCombination() {
     const slotValues = Array.from(document.querySelectorAll(".slot")).map(slot => slot.style.backgroundImage);
     return new Set(slotValues).size === 1; // Menang jika semua gambar di slot sama
+}
+
+// Fungsi untuk menambah saldo
+function topUpSaldo() {
+    const topUpAmount = parseFloat(prompt("Masukkan jumlah saldo tambahan:", "5000"));
+    if (!isNaN(topUpAmount) && topUpAmount > 0) {
+        saldo += topUpAmount;
+        updateStatus();
+    } else {
+        alert("Jumlah tidak valid!");
+    }
 }
 
 // Update status pertama kali
