@@ -1,4 +1,4 @@
-/* Seluruh tampilan halaman */
+/* Layout */
 body {
     display: flex;
     justify-content: center;
@@ -17,6 +17,12 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.status {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #333;
+}
+
 .slot-machine {
     display: flex;
     justify-content: center;
@@ -29,15 +35,8 @@ body {
     background-color: #d4a017;
     border: 2px solid #000;
     margin: 0 5px;
-    font-size: 1.5em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ffffff;
-    font-weight: bold;
-    border-radius: 8px;
-    background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjWj_cn7r_aqXw2mw7-xYg6JmN_oqYFpU6yHEL06d1zJyk9VLLEZdWY-2sBku2cIi9_tIUcwriCh0JTdiE3NslpMnpfGMsj6OCh1Voex0B9fmkNLwgkXIXMhCiptqB8moMJKYJMq8EYvoOs1YMz6Yx39FhVMWe9tfi-AB2FpMryRFefIPlpXUWVi9alxrk/s1280/payang.png');
     background-size: cover;
+    border-radius: 8px;
 }
 
 h1 {
