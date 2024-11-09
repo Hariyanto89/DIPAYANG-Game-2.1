@@ -74,8 +74,8 @@ function getRandomAsset() {
 
 // Fungsi untuk memperbarui kolom slot saat spin berhenti
 function updateSlotAppearance(slot, asset) {
-    slot.style.backgroundImage = `url(${asset.img})`;
-    slot.style.backgroundColor = asset.color;
+    slot.style.backgroundColor = asset.color; // Menggunakan warna dari aset
+    slot.setAttribute("data-asset", asset.name); // Set data-attribute untuk CSS
     slot.innerText = asset.name;
 }
 
@@ -95,22 +95,21 @@ function spin(times) {
 
     for (let i = 0; i < times; i++) {
         setTimeout(() => {
-            slots.forEach((slot, index) => {
+            slots.forEach((slot) => {
                 const asset = getRandomAsset();
                 updateSlotAppearance(slot, asset);
                 perolehan += asset.value;
             });
 
-            if (isWinningCombination()) {
-                saldo += perolehan;
-                alert("Selamat! Anda Menang!");
-            } else if (i === times - 1) {
-                alert("Tidak berhasil. Coba lagi!");
-            }
-
             if (i === times - 1) {
-                stopSpinAnimation(slots);
+                stopSpinAnimation(slots); // Hentikan animasi setelah putaran selesai
                 updateStatus();
+                if (isWinningCombination()) {
+                    saldo += perolehan;
+                    alert("Selamat! Anda Menang!");
+                } else {
+                    alert("Tidak berhasil. Coba lagi!");
+                }
             }
         }, i * 3000); // Jeda diperpanjang untuk efek lebih lambat
     }
@@ -131,8 +130,8 @@ function maxBet() {
 
 // Fungsi untuk cek kombinasi menang (contoh sederhana: semua slot sama)
 function isWinningCombination() {
-    const slotValues = Array.from(document.querySelectorAll(".slot")).map(slot => slot.style.backgroundImage);
-    return new Set(slotValues).size === 1;
+    const slotValues = Array.from(document.querySelectorAll(".slot")).map(slot => slot.style.backgroundColor);
+    return new Set(slotValues).size === 1; // Menang jika semua warna latar sama
 }
 
 // Fungsi untuk memulai kuis pengisian saldo
