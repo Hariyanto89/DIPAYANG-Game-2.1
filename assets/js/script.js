@@ -11,25 +11,6 @@ const assets = [
     { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png?raw=true", value: 1000.99 }
 ];
 
-// Pertanyaan kuis tentang DIPAYANG untuk menambah saldo
-let availableQuestions = [
-    {
-        question: "Siapa inisiator aplikasi DIPAYANG?",
-        options: ["Herwin Noviansyah", "Mbah Mijan"],
-        answer: 0
-    },
-    {
-        question: "Platform apa yang digunakan oleh aplikasi DIPAYANG?",
-        options: ["AppSheet", "AppMaker"],
-        answer: 0
-    },
-    {
-        question: "Apa tujuan utama dari aplikasi DIPAYANG?",
-        options: ["Mendigitalisasi dan mempermudah pengelolaan aset daerah", "Mendigitalisasi dan mempermudah pengelolaan keuangan daerah"],
-        answer: 0
-    }
-];
-
 // Variabel untuk saldo dan perolehan
 let saldo = 10000.00;
 let perolehan = 0.00;
