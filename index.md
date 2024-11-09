@@ -27,7 +27,7 @@ plugins:
 <div class="controls">
     <button onclick="spin(1)">Spin 1x</button>
     <button onclick="spin(2)">Spin 2x</button>
-    <button onclick="spin(5)">Spin 5x</button>
+    <button onclick="spin(3)">Spin 3x</button> <!-- Mengubah tombol spin 5x menjadi 3x -->
     <button onclick="maxBet()">Max Bet</button>
     <button onclick="startQuiz()">Isi Saldo</button>
 </div>
