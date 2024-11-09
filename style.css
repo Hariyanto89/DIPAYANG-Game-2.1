@@ -1,3 +1,4 @@
+/* Seluruh tampilan halaman */
 body {
     display: flex;
     justify-content: center;
@@ -35,7 +36,7 @@ body {
     color: #ffffff;
     font-weight: bold;
     border-radius: 8px;
-    background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjWj_cn7r_aqXw2mw7-xYg6JmN_oqYFpU6yHEL06d1zJyk9VLLEZdWY-2sBku2cIi9_tIUcwriCh0JTdiE3NslpMnpfGMsj6OCh1Voex0B9fmkNLwgkXIXMhCiptqB8moMJKYJMq8EYvoOs1YMz6Yx39FhVMWe9tfi-AB2FpMryRFefIPlpXUWVi9alxrk/s1280/payang.png'); /* Ganti URL ini dengan gambar yang diinginkan */
+    background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjWj_cn7r_aqXw2mw7-xYg6JmN_oqYFpU6yHEL06d1zJyk9VLLEZdWY-2sBku2cIi9_tIUcwriCh0JTdiE3NslpMnpfGMsj6OCh1Voex0B9fmkNLwgkXIXMhCiptqB8moMJKYJMq8EYvoOs1YMz6Yx39FhVMWe9tfi-AB2FpMryRFefIPlpXUWVi9alxrk/s1280/payang.png');
     background-size: cover;
 }
 
