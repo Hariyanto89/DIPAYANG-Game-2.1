@@ -1,1 +1,122 @@
+/* Layout Umum */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0e5cf;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Kolom Saldo dan Perolehan */
+.status {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+#saldo {
+    background-color: #6a0dad; /* Ungu */
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    width: 150px;
+    text-align: center;
+}
+
+#perolehan {
+    background-color: #e60000; /* Merah */
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    width: 150px;
+    text-align: center;
+}
+
+/* Slot Mesin */
+.slot-machine {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.slot {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #333;
+    margin: 0 5px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Warna Latar Berdasarkan Jenis Aset */
+.slot[data-asset="Tanah"] { background-color: #FFD700; } /* Kuning emas */
+.slot[data-asset="Peralatan dan Mesin"] { background-color: #8A2BE2; } /* Ungu */
+.slot[data-asset="Gedung dan Bangunan"] { background-color: #FF4500; } /* Oranye kemerahan */
+.slot[data-asset="Jalan Jaringan dan Irigasi"] { background-color: #32CD32; } /* Hijau limau */
+.slot[data-asset="Aset Tetap Lainnya"] { background-color: #1E90FF; } /* Biru Dodger */
+.slot[data-asset="Konstruksi Dalam Pengerjaan"] { background-color: #FF69B4; } /* Pink panas */
+.slot[data-asset="Aset Tak Berwujud"] { background-color: #A52A2A; } /* Coklat */
+.slot[data-asset="Aset Lain Lain"] { background-color: #00CED1; } /* Biru cerah */
+.slot[data-asset="Properti Investasi"] { background-color: #FF8C00; } /* Oranye gelap */
+
+/* Efek Goyang untuk Slot */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+.slot.shake {
+    animation: shake 0.1s infinite;
+}
+
+/* Tombol Kontrol */
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Kuis dan Kontrol Slot */
+.controls {
+    margin-top: 20px;
+}
+
+.controls button {
+    margin: 5px;
+}
 
