@@ -175,4 +175,3 @@ function startQuiz() {
 
 // Update status pertama kali
 updateStatus();
-
