@@ -12,7 +12,7 @@ const assets = [
 ];
 
 // Pertanyaan kuis tentang DIPAYANG
-const questions = [
+let availableQuestions = [
     {
         question: "Apa kepanjangan dari DIPAYANG?",
         options: ["Digitalisasi Pengamanan Aset Kepahiang", "Digitalisasi Pengelolaan Aset Kepahiang"],
@@ -87,6 +87,7 @@ function spin(times) {
                 const asset = getRandomAsset();
                 slot.style.backgroundImage = `url(${asset.img})`;
                 slot.style.backgroundColor = asset.color; // Atur warna sesuai aset
+                slot.innerText = asset.name; // Tampilkan nama aset di slot
                 perolehan += asset.value; // Tambahkan nilai perolehan berdasarkan nilai aset
             });
 
@@ -126,8 +127,13 @@ function isWinningCombination() {
 
 // Fungsi untuk memulai kuis pengisian saldo
 function startQuiz() {
-    const randomIndex = Math.floor(Math.random() * questions.length);
-    const selectedQuestion = questions[randomIndex];
+    if (availableQuestions.length === 0) {
+        // Reset pertanyaan jika semua telah digunakan
+        availableQuestions = [...questions];
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+    const selectedQuestion = availableQuestions.splice(randomIndex, 1)[0]; // Hapus pertanyaan yang dipilih
 
     const userAnswer = prompt(
         `${selectedQuestion.question}\n` +
