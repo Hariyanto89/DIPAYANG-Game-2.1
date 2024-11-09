@@ -8,7 +8,7 @@ const assets = [
     { name: "Konstruksi Dalam Pengerjaan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/f.png", value: 600.90, color: "#FF69B4" }, // Pink panas
     { name: "Aset Tak Berwujud", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/komputer.png", value: 700.25, color: "#A52A2A" }, // Coklat
     { name: "Aset Lain Lain", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/rusaknian.png", value: 800.45, color: "#00CED1" }, // Biru cerah
-    { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/ADFG.png", value: 1000.99, color: "#FF8C00" } // Oranye gelap
+    { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png", value: 1000.99, color: "#FF8C00" } // Oranye gelap
 ];
 
 // Pertanyaan kuis tentang DIPAYANG
