@@ -11,6 +11,35 @@ const assets = [
     { name: "Properti Investasi", img: "https://via.placeholder.com/100?text=Properti", value: 1000.99 }
 ];
 
+// Pertanyaan kuis tentang DIPAYANG
+const questions = [
+    {
+        question: "Apa kepanjangan dari DIPAYANG?",
+        options: ["Digitalisasi Pengamanan Aset Kepahiang", "Digitalisasi Pengelolaan Aset Kepahiang"],
+        answer: 0
+    },
+    {
+        question: "Platform apa yang digunakan oleh aplikasi DIPAYANG?",
+        options: ["AppSheet", "AppMaker"],
+        answer: 0
+    },
+    {
+        question: "Fitur apa yang digunakan untuk menilai tingkat keamanan fisik aset?",
+        options: ["Indikator berwarna", "Indikator angka"],
+        answer: 0
+    },
+    {
+        question: "Apa tujuan utama dari aplikasi DIPAYANG?",
+        options: ["Mendigitalisasi dan mempermudah pengelolaan aset daerah", "Mendigitalisasi dan mempermudah pengelolaan keuangan daerah"],
+        answer: 0
+    },
+    {
+        question: "Siapa yang mengembangkan aplikasi DIPAYANG?",
+        options: ["BKD Kab. Kepahiang", "BPK Kab. Kepahiang"],
+        answer: 0
+    }
+];
+
 // Variabel untuk saldo dan perolehan
 let saldo = 10000.00;
 let perolehan = 0.00;
@@ -22,12 +51,7 @@ function updateStatus() {
     document.getElementById("perolehan").innerText = perolehan.toFixed(2);
 }
 
-// Fungsi untuk mendapatkan aset acak
-function getRandomAsset() {
-    return assets[Math.floor(Math.random() * assets.length)];
-}
-
-// Fungsi animasi spin dengan kecepatan berbeda untuk setiap slot
+// Fungsi animasi spin
 function startSpinAnimation(slots) {
     slots[0].classList.add("spin1");
     slots[1].classList.add("spin2");
@@ -99,15 +123,38 @@ function isWinningCombination() {
     return new Set(slotValues).size === 1; // Menang jika semua gambar di slot sama
 }
 
-// Fungsi untuk menambah saldo
-function topUpSaldo() {
-    const topUpAmount = parseFloat(prompt("Masukkan jumlah saldo tambahan:", "5000"));
-    if (!isNaN(topUpAmount) && topUpAmount > 0) {
-        saldo += topUpAmount;
-        updateStatus();
-    } else {
-        alert("Jumlah tidak valid!");
+// Fungsi untuk memulai kuis pengisian saldo
+function startQuiz() {
+    const randomIndex = Math.floor(Math.random() * questions.length);
+    const selectedQuestion = questions[randomIndex];
+
+    const userAnswer = prompt(
+        `${selectedQuestion.question}\n` +
+        `1. ${selectedQuestion.options[0]}\n` +
+        `2. ${selectedQuestion.options[1]}\n` +
+        `Ketik 1 atau 2 untuk jawaban Anda:`
+    );
+
+    if (userAnswer === null) {
+        alert("Kuis dibatalkan.");
+        return;
     }
+
+    const userAnswerIndex = parseInt(userAnswer) - 1;
+
+    if (userAnswerIndex === selectedQuestion.answer) {
+        const reward = 1000; // Jumlah saldo yang ditambahkan
+        saldo += reward;
+        updateStatus();
+        alert(`Jawaban benar! Anda mendapatkan saldo tambahan sebesar ${reward}.`);
+    } else {
+        alert("Jawaban salah. Coba lagi lain kali.");
+    }
+}
+
+// Fungsi untuk mendapatkan aset acak
+function getRandomAsset() {
+    return assets[Math.floor(Math.random() * assets.length)];
 }
 
 // Update status pertama kali
