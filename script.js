@@ -112,7 +112,7 @@ function spin(times) {
                 stopSpinAnimation(slots);
                 updateStatus();
             }
-        }, i * 1500); // Jeda diperpanjang untuk efek yang lebih dramatis
+        }, i * 3000); // Jeda diperpanjang untuk efek lebih lambat
     }
 }
 
