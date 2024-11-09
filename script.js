@@ -19,7 +19,6 @@ function spin() {
     document.getElementById("slot2").innerText = getRandomAsset();
     document.getElementById("slot3").innerText = getRandomAsset();
 
-    // Check if all three slots are the same to win
     if (
         document.getElementById("slot1").innerText === document.getElementById("slot2").innerText &&
         document.getElementById("slot2").innerText === document.getElementById("slot3").innerText
@@ -30,5 +29,5 @@ function spin() {
 
 function maxBet() {
     alert("Max Bet Dipasang!");
-    spin(); // Example: you can add additional functionality for max bet here
+    spin();
 }
