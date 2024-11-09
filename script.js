@@ -45,6 +45,9 @@ let saldo = 10000.00;
 let perolehan = 0.00;
 const costPerSpin = 500; // Biaya per spin dasar
 
+// Ambil elemen audio untuk suara spin
+const spinSound = document.getElementById("spinSound");
+
 // Update saldo dan perolehan di HTML
 function updateStatus() {
     document.getElementById("saldo").innerText = saldo.toFixed(2);
@@ -53,18 +56,15 @@ function updateStatus() {
 
 // Fungsi animasi spin
 function startSpinAnimation(slots) {
-    slots[0].classList.add("spin1");
-    slots[1].classList.add("spin2");
-    slots[2].classList.add("spin3");
-    slots[3].classList.add("spin4");
-    slots[4].classList.add("spin5");
+    slots.forEach(slot => slot.classList.add("shake")); // Tambahkan efek shake
+    spinSound.play(); // Mainkan suara spin
 }
 
 // Hentikan animasi
 function stopSpinAnimation(slots) {
-    slots.forEach(slot => {
-        slot.classList.remove("spin1", "spin2", "spin3", "spin4", "spin5");
-    });
+    slots.forEach(slot => slot.classList.remove("shake")); // Hapus efek shake
+    spinSound.pause(); // Hentikan suara spin
+    spinSound.currentTime = 0; // Reset audio ke awal
 }
 
 // Fungsi untuk mendapatkan aset acak
