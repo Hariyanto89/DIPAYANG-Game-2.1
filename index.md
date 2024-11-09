@@ -29,7 +29,7 @@ title: "Game Slot Aset Tetap"
         <button onclick="spin(2)">Spin 2x</button>
         <button onclick="spin(5)">Spin 5x</button>
         <button onclick="maxBet()">Max Bet</button>
-        <button onclick="topUpSaldo()">Tambah Saldo</button>
+        <button onclick="startQuiz()">Isi Saldo</button> <!-- Tombol Isi Saldo Interaktif -->
     </div>
 </div>
 
