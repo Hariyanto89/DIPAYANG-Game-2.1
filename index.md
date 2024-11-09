@@ -1,3 +1,11 @@
+---
+layout: default
+title: Game Slot Aset Tetap
+remote_theme: pages-themes/time-machine@v0.2.0
+plugins:
+  - jekyll-remote-theme
+---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,9 +33,11 @@
             <div id="slot5" class="slot"></div>
         </div>
         
-        <!-- Tombol Kontrol -->
+        <!-- Tombol Kontrol untuk berbagai jenis spin -->
         <div class="controls">
-            <button onclick="spin(1)">Spin</button>
+            <button onclick="spin(1)">Spin 1x</button>
+            <button onclick="spin(2)">Spin 2x</button>
+            <button onclick="spin(5)">Spin 5x</button>
             <button onclick="maxBet()">Max Bet</button>
             <button onclick="startQuiz()">Isi Saldo</button>
         </div>
