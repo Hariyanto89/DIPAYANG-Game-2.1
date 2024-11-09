@@ -67,6 +67,18 @@ function stopSpinAnimation(slots) {
     });
 }
 
+// Fungsi untuk mendapatkan aset acak
+function getRandomAsset() {
+    return assets[Math.floor(Math.random() * assets.length)];
+}
+
+// Fungsi untuk memperbarui kolom slot saat spin berhenti
+function updateSlotAppearance(slot, asset) {
+    slot.style.backgroundImage = `url(${asset.img})`;
+    slot.style.backgroundColor = asset.color;
+    slot.innerText = asset.name;
+}
+
 // Fungsi untuk Spin dengan jumlah putaran
 function spin(times) {
     const totalCost = costPerSpin * times;
@@ -75,8 +87,8 @@ function spin(times) {
         return;
     }
 
-    saldo -= totalCost; // Kurangi saldo setiap spin
-    perolehan = 0; // Reset perolehan setiap spin baru
+    saldo -= totalCost;
+    perolehan = 0;
 
     const slots = Array.from(document.querySelectorAll(".slot"));
     startSpinAnimation(slots);
@@ -85,14 +97,12 @@ function spin(times) {
         setTimeout(() => {
             slots.forEach((slot, index) => {
                 const asset = getRandomAsset();
-                slot.style.backgroundImage = `url(${asset.img})`;
-                slot.style.backgroundColor = asset.color; // Atur warna sesuai aset
-                slot.innerText = asset.name; // Tampilkan nama aset di slot
-                perolehan += asset.value; // Tambahkan nilai perolehan berdasarkan nilai aset
+                updateSlotAppearance(slot, asset);
+                perolehan += asset.value;
             });
 
             if (isWinningCombination()) {
-                saldo += perolehan; // Tambahkan perolehan ke saldo jika menang
+                saldo += perolehan;
                 alert("Selamat! Anda Menang!");
             } else if (i === times - 1) {
                 alert("Tidak berhasil. Coba lagi!");
@@ -100,15 +110,15 @@ function spin(times) {
 
             if (i === times - 1) {
                 stopSpinAnimation(slots);
-                updateStatus(); // Update tampilan saldo dan perolehan setelah spin selesai
+                updateStatus();
             }
-        }, i * 1000); // Jeda antar spin untuk efek animasi
+        }, i * 1500); // Jeda diperpanjang untuk efek yang lebih dramatis
     }
 }
 
 // Fungsi untuk Max Bet
 function maxBet() {
-    const maxBetCost = costPerSpin * 10; // Biaya max bet
+    const maxBetCost = costPerSpin * 10;
     if (saldo < maxBetCost) {
         alert("Saldo tidak cukup untuk max bet!");
         return;
@@ -122,18 +132,17 @@ function maxBet() {
 // Fungsi untuk cek kombinasi menang (contoh sederhana: semua slot sama)
 function isWinningCombination() {
     const slotValues = Array.from(document.querySelectorAll(".slot")).map(slot => slot.style.backgroundImage);
-    return new Set(slotValues).size === 1; // Menang jika semua gambar di slot sama
+    return new Set(slotValues).size === 1;
 }
 
 // Fungsi untuk memulai kuis pengisian saldo
 function startQuiz() {
     if (availableQuestions.length === 0) {
-        // Reset pertanyaan jika semua telah digunakan
         availableQuestions = [...questions];
     }
 
     const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-    const selectedQuestion = availableQuestions.splice(randomIndex, 1)[0]; // Hapus pertanyaan yang dipilih
+    const selectedQuestion = availableQuestions.splice(randomIndex, 1)[0];
 
     const userAnswer = prompt(
         `${selectedQuestion.question}\n` +
@@ -150,18 +159,13 @@ function startQuiz() {
     const userAnswerIndex = parseInt(userAnswer) - 1;
 
     if (userAnswerIndex === selectedQuestion.answer) {
-        const reward = 1000; // Jumlah saldo yang ditambahkan
+        const reward = 1000;
         saldo += reward;
         updateStatus();
         alert(`Jawaban benar! Anda mendapatkan saldo tambahan sebesar ${reward}.`);
     } else {
         alert("Jawaban salah. Coba lagi lain kali.");
     }
-}
-
-// Fungsi untuk mendapatkan aset acak
-function getRandomAsset() {
-    return assets[Math.floor(Math.random() * assets.length)];
 }
 
 // Update status pertama kali
