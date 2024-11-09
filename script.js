@@ -19,8 +19,8 @@ let availableQuestions = [
         answer: 0
     },
     {
-        question: "Apa kepanjangan dari DIPAYANG?",
-        options: ["Digitalisasi Pengamanan Aset Kepahiang", "Digitalisasi Pengelolaan Aset Kepahiang"],
+        question: "Siapa developer aplikasi DIPAYANG?",
+        options: ["Hariyanto Ganteng", "Joko Winarto"],
         answer: 0
     },
     {
