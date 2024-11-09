@@ -14,6 +14,11 @@ const assets = [
 // Pertanyaan kuis tentang DIPAYANG untuk menambah saldo
 let availableQuestions = [
     {
+        question: "Siapa inisiator aplikasi DIPAYANG?",
+        options: ["Herwin noviansyah, S.Sos., MM", "Mbah Mijan"],
+        answer: 0
+    },
+    {
         question: "Apa kepanjangan dari DIPAYANG?",
         options: ["Digitalisasi Pengamanan Aset Kepahiang", "Digitalisasi Pengelolaan Aset Kepahiang"],
         answer: 0
