@@ -38,9 +38,6 @@ let isSpinning = false; // Untuk cek apakah spin sedang berlangsung
 let stopSpinRequested = false; // Untuk mengecek jika spin dihentikan oleh tombol stop
 let spinIntervals = []; // Array untuk menyimpan interval ID agar dapat dihentikan
 
-// Ambil elemen audio untuk suara spin
-const spinSound = document.getElementById("spinSound");
-
 // Update saldo dan perolehan di HTML
 function updateStatus() {
     document.getElementById("saldo").innerText = saldo.toFixed(2);
@@ -50,7 +47,6 @@ function updateStatus() {
 // Fungsi animasi spin
 function startSpinAnimation(slots) {
     slots.forEach(slot => slot.classList.add("shake"));
-    spinSound.play();
 }
 
 // Hentikan animasi
@@ -58,8 +54,6 @@ function stopSpinAnimation(slots) {
     slots.forEach(slot => {
         slot.classList.remove("shake");
     });
-    spinSound.pause();
-    spinSound.currentTime = 0;
 }
 
 // Fungsi untuk mendapatkan aset acak
