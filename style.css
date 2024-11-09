@@ -67,9 +67,10 @@ body {
     font-size: 1.1em; /* Teks lebih besar */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Bayangan untuk memperjelas teks */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
+    transition: all 0.3s ease; /* Transisi lembut untuk perubahan warna */
 }
 
-/* Warna latar yang lebih menarik */
+/* Warna latar berdasarkan jenis aset */
 .slot[data-asset="Tanah"] { background-color: #FFD700; } /* Kuning emas */
 .slot[data-asset="Peralatan dan Mesin"] { background-color: #8A2BE2; } /* Ungu */
 .slot[data-asset="Gedung dan Bangunan"] { background-color: #FF4500; } /* Oranye kemerahan */
@@ -80,13 +81,14 @@ body {
 .slot[data-asset="Aset Lain Lain"] { background-color: #00CED1; } /* Biru cerah */
 .slot[data-asset="Properti Investasi"] { background-color: #FF8C00; } /* Oranye gelap */
 
-/* Animasi Spin yang Lebih Lambat */
+/* Animasi Spin yang Lambat */
 @keyframes spin {
     0% { opacity: 0.5; transform: scale(0.9); }
     50% { opacity: 1; transform: scale(1); }
     100% { opacity: 0.5; transform: scale(0.9); }
 }
 
+/* Durasi animasi sangat lambat untuk efek yang dramatis */
 .slot.spin1 { animation: spin 100s linear infinite; }
 .slot.spin2 { animation: spin 140s linear infinite; }
 .slot.spin3 { animation: spin 200s linear infinite; }
