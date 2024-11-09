@@ -15,7 +15,7 @@ const assets = [
 let availableQuestions = [
     {
         question: "Siapa inisiator aplikasi DIPAYANG?",
-        options: ["Herwin noviansyah, S.Sos., MM", "Mbah Mijan"],
+        options: ["Herwin noviansyah", "Mbah Mijan"],
         answer: 0
     },
     {
