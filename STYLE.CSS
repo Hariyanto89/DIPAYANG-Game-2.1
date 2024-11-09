@@ -1,37 +1,48 @@
 body {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0e5cf;
     font-family: Arial, sans-serif;
-    background-color: #f5e0b7;
 }
 
 .container {
-    width: 90%;
-    max-width: 600px;
-    margin: auto;
+    text-align: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .slot-machine {
     display: flex;
     justify-content: center;
     margin: 20px 0;
-    background-color: #d4a017;
-    padding: 20px;
-    border-radius: 10px;
 }
 
 .slot {
     width: 100px;
     height: 100px;
-    background-color: #f0c040;
+    background-color: #d4a017;
     border: 2px solid #000;
     margin: 0 5px;
     font-size: 1.5em;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #8b0000;
+    color: #ffffff;
     font-weight: bold;
     border-radius: 8px;
+    background-image: url('https://via.placeholder.com/100'); /* Ganti URL ini dengan gambar yang diinginkan */
+    background-size: cover;
+}
+
+h1 {
+    font-size: 2em;
+    color: #8b0000;
+    margin-bottom: 10px;
 }
 
 .controls {
