@@ -57,7 +57,7 @@ body {
     height: 100px;
     border: 2px solid #333;
     margin: 0 5px;
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     border-radius: 8px;
     display: flex;
@@ -70,17 +70,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Warna Latar Berdasarkan Jenis Aset */
-.slot[data-asset="Tanah"] { background-color: #FFD700; } /* Kuning emas */
-.slot[data-asset="Peralatan dan Mesin"] { background-color: #8A2BE2; } /* Ungu */
-.slot[data-asset="Gedung dan Bangunan"] { background-color: #FF4500; } /* Oranye kemerahan */
-.slot[data-asset="Jalan Jaringan dan Irigasi"] { background-color: #32CD32; } /* Hijau limau */
-.slot[data-asset="Aset Tetap Lainnya"] { background-color: #1E90FF; } /* Biru Dodger */
-.slot[data-asset="Konstruksi Dalam Pengerjaan"] { background-color: #FF69B4; } /* Pink panas */
-.slot[data-asset="Aset Tak Berwujud"] { background-color: #A52A2A; } /* Coklat */
-.slot[data-asset="Aset Lain Lain"] { background-color: #00CED1; } /* Biru cerah */
-.slot[data-asset="Properti Investasi"] { background-color: #FF8C00; } /* Oranye gelap */
-
 /* Efek Goyang untuk Slot */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -90,7 +79,7 @@ body {
 }
 
 .slot.shake {
-    animation: shake 1s ease-in-out;  /* Durasi animasi lebih jelas */
+    animation: shake 1s ease-in-out;
 }
 
 /* Tombol Kontrol */
@@ -109,13 +98,4 @@ button {
 
 button:hover {
     background-color: #45a049;
-}
-
-/* Kuis dan Kontrol Slot */
-.controls {
-    margin-top: 20px;
-}
-
-.controls button {
-    margin: 5px;
 }
