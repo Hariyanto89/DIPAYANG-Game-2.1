@@ -14,6 +14,7 @@ const assets = [
 // Variabel untuk saldo dan perolehan
 let saldo = 10000;
 let perolehan = 0;
+const costPerSpin = 500; // Biaya per spin
 
 // Update saldo dan perolehan di HTML
 function updateStatus() {
@@ -26,25 +27,68 @@ function getRandomAsset() {
     return assets[Math.floor(Math.random() * assets.length)];
 }
 
-// Fungsi untuk Spin
+// Fungsi animasi spin
+function animateSpin(slots) {
+    slots.forEach(slot => {
+        slot.style.animation = "spin 0.5s ease-in-out infinite";
+    });
+}
+
+// Fungsi untuk menghentikan animasi
+function stopAnimation(slots) {
+    slots.forEach(slot => {
+        slot.style.animation = "";
+    });
+}
+
+// Fungsi utama untuk Spin
 function spin() {
-    perolehan = 0; // Reset perolehan setiap spin baru
-    for (let i = 1; i <= 5; i++) {
-        const asset = getRandomAsset();
-        document.getElementById(`slot${i}`).style.backgroundImage = `url(${asset.img})`;
-        perolehan += asset.value; // Tambahkan nilai perolehan berdasarkan nilai aset
+    if (saldo < costPerSpin) {
+        alert("Saldo tidak cukup untuk spin!");
+        return;
     }
 
-    saldo += perolehan; // Tambahkan perolehan ke saldo
-    updateStatus(); // Update tampilan saldo dan perolehan
+    saldo -= costPerSpin; // Kurangi saldo setiap spin
+    perolehan = 0; // Reset perolehan setiap spin baru
+
+    const slots = Array.from(document.querySelectorAll(".slot"));
+    animateSpin(slots);
+
+    setTimeout(() => {
+        slots.forEach((slot, index) => {
+            const asset = getRandomAsset();
+            slot.style.backgroundImage = `url(${asset.img})`;
+            perolehan += asset.value; // Tambahkan nilai perolehan berdasarkan nilai aset
+        });
+
+        if (isWinningCombination()) {
+            saldo += perolehan; // Tambahkan perolehan ke saldo jika menang
+            alert("Selamat! Anda Menang!");
+        } else {
+            alert("Tidak berhasil. Coba lagi!");
+        }
+
+        stopAnimation(slots);
+        updateStatus(); // Update tampilan saldo dan perolehan
+    }, 2000); // Durasi animasi spin
 }
 
-// Fungsi untuk Max Bet (contohnya akan menggandakan nilai perolehan)
+// Fungsi untuk Max Bet
 function maxBet() {
-    alert("Max Bet Dipasang!");
+    if (saldo < costPerSpin * 2) {
+        alert("Saldo tidak cukup untuk max bet!");
+        return;
+    }
+
+    saldo -= costPerSpin * 2; // Biaya max bet
     spin();
-    saldo -= 1000; // Biaya max bet
-    perolehan *= 2; // Gandakan nilai perolehan sebagai contoh max bet
-    saldo += perolehan;
-    updateStatus();
 }
+
+// Fungsi untuk cek kombinasi menang (contoh sederhana: semua slot sama)
+function isWinningCombination() {
+    const slotValues = Array.from(document.querySelectorAll(".slot")).map(slot => slot.style.backgroundImage);
+    return new Set(slotValues).size === 1; // Menang jika semua gambar di slot sama
+}
+
+// Update status pertama kali
+updateStatus();
