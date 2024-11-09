@@ -90,7 +90,7 @@ body {
 }
 
 .slot.shake {
-    animation: shake 0.1s infinite;
+    animation: shake 1s ease-in-out;  /* Durasi animasi lebih jelas */
 }
 
 /* Tombol Kontrol */
