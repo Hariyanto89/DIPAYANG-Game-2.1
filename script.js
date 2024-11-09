@@ -1,17 +1,17 @@
 // Daftar aset dengan gambar dari GitHub, nilai, dan warna latar belakang
 const assets = [
-    { name: "Tanah", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/a.png", value: 100.50, color: "#FFD700" }, // Kuning emas
-    { name: "Peralatan dan Mesin", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/b.png", value: 200.75, color: "#8A2BE2" }, // Ungu
-    { name: "Gedung dan Bangunan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/c.png", value: 300.30, color: "#FF4500" }, // Oranye kemerahan
-    { name: "Jalan Jaringan dan Irigasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/d.png", value: 400.10, color: "#32CD32" }, // Hijau limau
-    { name: "Aset Tetap Lainnya", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/e.png", value: 500.60, color: "#1E90FF" }, // Biru Dodger
-    { name: "Konstruksi Dalam Pengerjaan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/f.png", value: 600.90, color: "#FF69B4" }, // Pink panas
-    { name: "Aset Tak Berwujud", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/komputer.png", value: 700.25, color: "#A52A2A" }, // Coklat
-    { name: "Aset Lain Lain", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/rusaknian.png", value: 800.45, color: "#00CED1" }, // Biru cerah
-    { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png", value: 1000.99, color: "#FF8C00" } // Oranye gelap
+    { name: "Tanah", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/a.png", value: 100.50, color: "#FFD700" },
+    { name: "Peralatan dan Mesin", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/b.png", value: 200.75, color: "#8A2BE2" },
+    { name: "Gedung dan Bangunan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/c.png", value: 300.30, color: "#FF4500" },
+    { name: "Jalan Jaringan dan Irigasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/d.png", value: 400.10, color: "#32CD32" },
+    { name: "Aset Tetap Lainnya", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/e.png", value: 500.60, color: "#1E90FF" },
+    { name: "Konstruksi Dalam Pengerjaan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/f.png", value: 600.90, color: "#FF69B4" },
+    { name: "Aset Tak Berwujud", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/komputer.png", value: 700.25, color: "#A52A2A" },
+    { name: "Aset Lain Lain", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/rusaknian.png", value: 800.45, color: "#00CED1" },
+    { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png", value: 1000.99, color: "#FF8C00" }
 ];
 
-// Pertanyaan kuis tentang DIPAYANG
+// Pertanyaan kuis tentang DIPAYANG untuk menambah saldo
 let availableQuestions = [
     {
         question: "Apa kepanjangan dari DIPAYANG?",
@@ -56,15 +56,15 @@ function updateStatus() {
 
 // Fungsi animasi spin
 function startSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.add("shake")); // Tambahkan efek shake
-    spinSound.play(); // Mainkan suara spin
+    slots.forEach(slot => slot.classList.add("shake"));
+    spinSound.play();
 }
 
 // Hentikan animasi
 function stopSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.remove("shake")); // Hapus efek shake
-    spinSound.pause(); // Hentikan suara spin
-    spinSound.currentTime = 0; // Reset audio ke awal
+    slots.forEach(slot => slot.classList.remove("shake"));
+    spinSound.pause();
+    spinSound.currentTime = 0;
 }
 
 // Fungsi untuk mendapatkan aset acak
@@ -74,10 +74,10 @@ function getRandomAsset() {
 
 // Fungsi untuk memperbarui kolom slot saat spin berhenti
 function updateSlotAppearance(slot, asset) {
-    slot.style.backgroundImage = `url(${asset.img})`; // Menggunakan gambar dari GitHub
-    slot.style.backgroundColor = asset.color; // Warna latar sesuai aset
-    slot.setAttribute("data-asset", asset.name); // Set data-attribute untuk CSS
-    slot.innerText = ""; // Menghapus teks agar gambar terlihat jelas
+    slot.style.backgroundImage = `url(${asset.img})`;
+    slot.style.backgroundColor = asset.color;
+    slot.setAttribute("data-asset", asset.name);
+    slot.innerText = "";
 }
 
 // Fungsi untuk Spin dengan jumlah putaran
@@ -103,7 +103,7 @@ function spin(times) {
             });
 
             if (i === times - 1) {
-                stopSpinAnimation(slots); // Hentikan animasi setelah putaran selesai
+                stopSpinAnimation(slots);
                 updateStatus();
                 if (isWinningCombination()) {
                     saldo += perolehan;
@@ -112,7 +112,7 @@ function spin(times) {
                     alert("Tidak berhasil. Coba lagi!");
                 }
             }
-        }, i * 3000); // Jeda diperpanjang untuk efek lebih lambat
+        }, i * 3000);
     }
 }
 
@@ -129,10 +129,10 @@ function maxBet() {
     spin(10);
 }
 
-// Fungsi untuk cek kombinasi menang (contoh sederhana: semua slot sama)
+// Fungsi untuk cek kombinasi menang
 function isWinningCombination() {
     const slotValues = Array.from(document.querySelectorAll(".slot")).map(slot => slot.style.backgroundColor);
-    return new Set(slotValues).size === 1; // Menang jika semua warna latar sama
+    return new Set(slotValues).size === 1;
 }
 
 // Fungsi untuk memulai kuis pengisian saldo
