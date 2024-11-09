@@ -164,7 +164,7 @@ function startQuiz() {
         updateStatus();
         alert(`Jawaban benar! Anda mendapatkan saldo tambahan sebesar ${reward}.`);
     } else {
-        alert("Jawaban salah. Coba lagi lain kali.");
+        alert("Jawaban salah. Coba lagi lain kali.`);
     }
 }
 
