@@ -32,7 +32,6 @@ body {
 .slot {
     width: 100px;
     height: 100px;
-    background-color: #d4a017;
     border: 2px solid #000;
     margin: 0 5px;
     background-size: cover;
@@ -40,6 +39,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white; /* Warna teks untuk kontras */
+    font-weight: bold;
 }
 
 /* Animasi per kolom dengan kecepatan berbeda */
