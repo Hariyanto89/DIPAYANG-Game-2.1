@@ -10,8 +10,8 @@ title: "Game Slot Aset Tetap"
     
     <!-- Saldo dan Perolehan -->
     <div class="status">
-        <p>Saldo: <span id="saldo">10000</span></p>
-        <p>Perolehan: <span id="perolehan">0</span></p>
+        <p>Saldo: <span id="saldo">10000.00</span></p>
+        <p>Perolehan: <span id="perolehan">0.00</span></p>
     </div>
 
     <!-- Mesin Slot -->
@@ -25,7 +25,9 @@ title: "Game Slot Aset Tetap"
 
     <!-- Tombol Kontrol -->
     <div class="controls">
-        <button onclick="spin()">Spin</button>
+        <button onclick="spin(1)">Spin 1x</button>
+        <button onclick="spin(2)">Spin 2x</button>
+        <button onclick="spin(5)">Spin 5x</button>
         <button onclick="maxBet()">Max Bet</button>
     </div>
 </div>
