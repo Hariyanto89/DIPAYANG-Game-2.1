@@ -1,14 +1,14 @@
-// Gambar aset untuk slot
+// Daftar aset dengan gambar, nilai, dan warna latar belakang
 const assets = [
-    { name: "Tanah", img: "https://via.placeholder.com/100?text=Tanah", value: 100.50 },
-    { name: "Peralatan dan Mesin", img: "https://via.placeholder.com/100?text=Mesin", value: 200.75 },
-    { name: "Gedung dan Bangunan", img: "https://via.placeholder.com/100?text=Gedung", value: 300.30 },
-    { name: "Jalan Jaringan", img: "https://via.placeholder.com/100?text=Jalan", value: 400.10 },
-    { name: "Aset Tetap Lainnya", img: "https://via.placeholder.com/100?text=Lainnya", value: 500.60 },
-    { name: "Konstruksi Dalam Pengerjaan", img: "https://via.placeholder.com/100?text=Konstruksi", value: 600.90 },
-    { name: "Aset Tak Berwujud", img: "https://via.placeholder.com/100?text=Tak+Berwujud", value: 700.25 },
-    { name: "Aset Lain Lain", img: "https://via.placeholder.com/100?text=Lain", value: 800.45 },
-    { name: "Properti Investasi", img: "https://via.placeholder.com/100?text=Properti", value: 1000.99 }
+    { name: "Tanah", img: "https://via.placeholder.com/100?text=Tanah", value: 100.50, color: "#FFD700" }, // Kuning emas
+    { name: "Peralatan dan Mesin", img: "https://via.placeholder.com/100?text=Mesin", value: 200.75, color: "#8A2BE2" }, // Ungu
+    { name: "Gedung dan Bangunan", img: "https://via.placeholder.com/100?text=Gedung", value: 300.30, color: "#FF4500" }, // Oranye kemerahan
+    { name: "Jalan Jaringan", img: "https://via.placeholder.com/100?text=Jalan", value: 400.10, color: "#32CD32" }, // Hijau limau
+    { name: "Aset Tetap Lainnya", img: "https://via.placeholder.com/100?text=Lainnya", value: 500.60, color: "#1E90FF" }, // Biru Dodger
+    { name: "Konstruksi Dalam Pengerjaan", img: "https://via.placeholder.com/100?text=Konstruksi", value: 600.90, color: "#FF69B4" }, // Pink panas
+    { name: "Aset Tak Berwujud", img: "https://via.placeholder.com/100?text=Tak+Berwujud", value: 700.25, color: "#A52A2A" }, // Coklat
+    { name: "Aset Lain Lain", img: "https://via.placeholder.com/100?text=Lain", value: 800.45, color: "#00CED1" }, // Biru cerah
+    { name: "Properti Investasi", img: "https://via.placeholder.com/100?text=Properti", value: 1000.99, color: "#FF8C00" } // Oranye gelap
 ];
 
 // Pertanyaan kuis tentang DIPAYANG
@@ -86,6 +86,7 @@ function spin(times) {
             slots.forEach((slot, index) => {
                 const asset = getRandomAsset();
                 slot.style.backgroundImage = `url(${asset.img})`;
+                slot.style.backgroundColor = asset.color; // Atur warna sesuai aset
                 perolehan += asset.value; // Tambahkan nilai perolehan berdasarkan nilai aset
             });
 
