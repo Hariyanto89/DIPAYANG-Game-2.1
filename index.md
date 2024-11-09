@@ -9,6 +9,8 @@ plugins:
 # Game Slot Aset Tetap
 
 <div class="container">
+    <h1>Game Slot Aset Tetap</h1>
+    
     <!-- Kolom Saldo dan Perolehan -->
     <div class="status">
         <div id="saldo">10000.00</div>
@@ -28,14 +30,11 @@ plugins:
     <div class="controls">
         <button onclick="spin(1)">Spin 1x</button>
         <button onclick="spin(2)">Spin 2x</button>
-        <button onclick="spin(3)">Spin 3x</button> <!-- Mengurangi jumlah putaran menjadi 3 -->
+        <button onclick="spin(3)">Spin 3x</button>
         <button onclick="maxBet()">Max Bet</button>
         <button onclick="startQuiz()">Isi Saldo</button>
-        <button onclick="stopSpin()">Stop</button> <!-- Tombol Stop -->
+        <button onclick="stopSpin()">Stop</button>
     </div>
-    
-    <!-- Suara Spin -->
-    <audio id="spinSound" src="https://example.com/spin-sound.mp3"></audio> <!-- Ganti dengan URL audio Anda -->
 </div>
 
 <!-- Menyertakan JavaScript dan CSS -->
