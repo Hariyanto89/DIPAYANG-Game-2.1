@@ -69,10 +69,10 @@ function getRandomAsset() {
 
 // Fungsi untuk memperbarui kolom slot saat spin berhenti
 function updateSlotAppearance(slot, asset) {
-    slot.style.backgroundImage = `url(${asset.img})`;
-    slot.style.backgroundColor = asset.color;
+    slot.style.backgroundImage = `url(${asset.img})`; // Hanya menampilkan gambar
+    slot.style.backgroundColor = ""; // Menghapus latar warna
     slot.setAttribute("data-asset", asset.name);
-    slot.innerText = ""; // Kosongkan teks slot
+    slot.innerText = ""; // Menghapus teks di dalam slot
 }
 
 // Fungsi untuk Spin dengan jumlah putaran
