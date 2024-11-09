@@ -1,14 +1,14 @@
-// Daftar aset dengan gambar, nilai, dan warna latar belakang
+// Daftar aset dengan gambar dari GitHub, nilai, dan warna latar belakang
 const assets = [
-    { name: "Tanah", img: "https://via.placeholder.com/100?text=Tanah", value: 100.50, color: "#FFD700" }, // Kuning emas
-    { name: "Peralatan dan Mesin", img: "https://via.placeholder.com/100?text=Mesin", value: 200.75, color: "#8A2BE2" }, // Ungu
-    { name: "Gedung dan Bangunan", img: "https://via.placeholder.com/100?text=Gedung", value: 300.30, color: "#FF4500" }, // Oranye kemerahan
-    { name: "Jalan Jaringan", img: "https://via.placeholder.com/100?text=Jalan", value: 400.10, color: "#32CD32" }, // Hijau limau
-    { name: "Aset Tetap Lainnya", img: "https://via.placeholder.com/100?text=Lainnya", value: 500.60, color: "#1E90FF" }, // Biru Dodger
-    { name: "Konstruksi Dalam Pengerjaan", img: "https://via.placeholder.com/100?text=Konstruksi", value: 600.90, color: "#FF69B4" }, // Pink panas
-    { name: "Aset Tak Berwujud", img: "https://via.placeholder.com/100?text=Tak+Berwujud", value: 700.25, color: "#A52A2A" }, // Coklat
-    { name: "Aset Lain Lain", img: "https://via.placeholder.com/100?text=Lain", value: 800.45, color: "#00CED1" }, // Biru cerah
-    { name: "Properti Investasi", img: "https://via.placeholder.com/100?text=Properti", value: 1000.99, color: "#FF8C00" } // Oranye gelap
+    { name: "Tanah", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/a.png", value: 100.50, color: "#FFD700" }, // Kuning emas
+    { name: "Peralatan dan Mesin", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/b.png", value: 200.75, color: "#8A2BE2" }, // Ungu
+    { name: "Gedung dan Bangunan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/c.png", value: 300.30, color: "#FF4500" }, // Oranye kemerahan
+    { name: "Jalan Jaringan dan Irigasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/d.png", value: 400.10, color: "#32CD32" }, // Hijau limau
+    { name: "Aset Tetap Lainnya", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/e.png", value: 500.60, color: "#1E90FF" }, // Biru Dodger
+    { name: "Konstruksi Dalam Pengerjaan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/f.png", value: 600.90, color: "#FF69B4" }, // Pink panas
+    { name: "Aset Tak Berwujud", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/komputer.png", value: 700.25, color: "#A52A2A" }, // Coklat
+    { name: "Aset Lain Lain", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/rusaknian.png", value: 800.45, color: "#00CED1" }, // Biru cerah
+    { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/ADFG.png", value: 1000.99, color: "#FF8C00" } // Oranye gelap
 ];
 
 // Pertanyaan kuis tentang DIPAYANG
@@ -74,9 +74,10 @@ function getRandomAsset() {
 
 // Fungsi untuk memperbarui kolom slot saat spin berhenti
 function updateSlotAppearance(slot, asset) {
-    slot.style.backgroundColor = asset.color; // Menggunakan warna dari aset
+    slot.style.backgroundImage = `url(${asset.img})`; // Menggunakan gambar dari GitHub
+    slot.style.backgroundColor = asset.color; // Warna latar sesuai aset
     slot.setAttribute("data-asset", asset.name); // Set data-attribute untuk CSS
-    slot.innerText = asset.name;
+    slot.innerText = ""; // Menghapus teks agar gambar terlihat jelas
 }
 
 // Fungsi untuk Spin dengan jumlah putaran
