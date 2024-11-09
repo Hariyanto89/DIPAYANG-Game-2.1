@@ -19,6 +19,7 @@ function spin() {
     document.getElementById("slot2").innerText = getRandomAsset();
     document.getElementById("slot3").innerText = getRandomAsset();
 
+    // Cek jika semua slot menampilkan aset yang sama untuk menang
     if (
         document.getElementById("slot1").innerText === document.getElementById("slot2").innerText &&
         document.getElementById("slot2").innerText === document.getElementById("slot3").innerText
@@ -29,5 +30,5 @@ function spin() {
 
 function maxBet() {
     alert("Max Bet Dipasang!");
-    spin();
+    spin(); // Fungsi tambahan untuk Max Bet
 }
