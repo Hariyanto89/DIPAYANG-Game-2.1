@@ -15,12 +15,7 @@ const assets = [
 let availableQuestions = [
     {
         question: "Siapa inisiator aplikasi DIPAYANG?",
-        options: ["Herwin noviansyah", "Mbah Mijan"],
-        answer: 0
-    },
-    {
-        question: "Siapa developer aplikasi DIPAYANG?",
-        options: ["Hariyanto Ganteng", "Joko Winarto"],
+        options: ["Herwin Noviansyah", "Mbah Mijan"],
         answer: 0
     },
     {
@@ -29,18 +24,8 @@ let availableQuestions = [
         answer: 0
     },
     {
-        question: "Fitur apa yang digunakan untuk menilai tingkat keamanan fisik aset?",
-        options: ["Indikator berwarna", "Indikator angka"],
-        answer: 0
-    },
-    {
         question: "Apa tujuan utama dari aplikasi DIPAYANG?",
         options: ["Mendigitalisasi dan mempermudah pengelolaan aset daerah", "Mendigitalisasi dan mempermudah pengelolaan keuangan daerah"],
-        answer: 0
-    },
-    {
-        question: "Siapa yang mengembangkan aplikasi DIPAYANG?",
-        options: ["BKD Kab. Kepahiang", "BPK Kab. Kepahiang"],
         answer: 0
     }
 ];
@@ -49,6 +34,8 @@ let availableQuestions = [
 let saldo = 10000.00;
 let perolehan = 0.00;
 const costPerSpin = 500; // Biaya per spin dasar
+let isSpinning = false; // Untuk cek apakah spin sedang berlangsung
+let stopSpinRequested = false; // Untuk mengecek jika spin dihentikan oleh tombol stop
 
 // Ambil elemen audio untuk suara spin
 const spinSound = document.getElementById("spinSound");
@@ -67,7 +54,9 @@ function startSpinAnimation(slots) {
 
 // Hentikan animasi
 function stopSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.remove("shake"));
+    slots.forEach(slot => {
+        slot.classList.remove("shake");
+    });
     spinSound.pause();
     spinSound.currentTime = 0;
 }
@@ -87,9 +76,16 @@ function updateSlotAppearance(slot, asset) {
 
 // Fungsi untuk Spin dengan jumlah putaran
 function spin(times) {
+    if (isSpinning) return;  // Cegah spin ganda
+    isSpinning = true;
+    stopSpinRequested = false; // Reset status stop
+
+    times = 3;  // Mengurangi jumlah putaran menjadi 3
+
     const totalCost = costPerSpin * times;
     if (saldo < totalCost) {
         alert("Saldo tidak cukup untuk spin ini!");
+        isSpinning = false;
         return;
     }
 
@@ -101,6 +97,13 @@ function spin(times) {
 
     for (let i = 0; i < times; i++) {
         setTimeout(() => {
+            if (stopSpinRequested) {
+                stopSpinAnimation(slots);
+                updateStatus();
+                alert("Spin dihentikan.");
+                return;
+            }
+
             slots.forEach((slot) => {
                 const asset = getRandomAsset();
                 updateSlotAppearance(slot, asset);
@@ -116,39 +119,24 @@ function spin(times) {
                 } else {
                     alert("Tidak berhasil. Coba lagi!");
                 }
+                isSpinning = false;
             }
-        }, i * 3000);
+        }, i * 3000); // Delay untuk setiap putaran
     }
-}
-
-// Fungsi untuk Max Bet
-function maxBet() {
-    const maxBetCost = costPerSpin * 10;
-    if (saldo < maxBetCost) {
-        alert("Saldo tidak cukup untuk max bet!");
-        return;
-    }
-
-    saldo -= maxBetCost;
-    perolehan = 0;
-    spin(10);
-}
-
-// Fungsi untuk cek kombinasi menang
-function isWinningCombination() {
-    const slotValues = Array.from(document.querySelectorAll(".slot")).map(slot => slot.style.backgroundColor);
-    return new Set(slotValues).size === 1;
 }
 
 // Fungsi untuk memulai kuis pengisian saldo
 function startQuiz() {
     if (availableQuestions.length === 0) {
-        availableQuestions = [...questions];
+        alert("Tidak ada lagi pertanyaan.");
+        return;
     }
 
+    // Ambil pertanyaan acak
     const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-    const selectedQuestion = availableQuestions.splice(randomIndex, 1)[0];
+    const selectedQuestion = availableQuestions[randomIndex];
 
+    // Tampilkan prompt pertanyaan kuis
     const userAnswer = prompt(
         `${selectedQuestion.question}\n` +
         `1. ${selectedQuestion.options[0]}\n` +
@@ -162,7 +150,6 @@ function startQuiz() {
     }
 
     const userAnswerIndex = parseInt(userAnswer) - 1;
-
     if (userAnswerIndex === selectedQuestion.answer) {
         const reward = 1000;
         saldo += reward;
@@ -171,6 +158,17 @@ function startQuiz() {
     } else {
         alert("Jawaban salah. Coba lagi lain kali.");
     }
+}
+
+// Tombol Stop untuk menghentikan spin
+function stopSpin() {
+    stopSpinRequested = true;
+}
+
+// Fungsi untuk cek kombinasi menang
+function isWinningCombination() {
+    const slotValues = Array.from(document.querySelectorAll(".slot")).map(slot => slot.style.backgroundColor);
+    return new Set(slotValues).size === 1;
 }
 
 // Update status pertama kali
