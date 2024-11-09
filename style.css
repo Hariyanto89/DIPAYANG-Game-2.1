@@ -1,4 +1,4 @@
-/* Layout */
+/* Layout Umum */
 body {
     display: flex;
     justify-content: center;
@@ -17,12 +17,35 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Kolom Saldo dan Perolehan */
 .status {
-    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
     font-size: 1.2em;
-    color: #333;
 }
 
+#saldo {
+    background-color: #6a0dad; /* Ungu */
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    width: 150px;
+    text-align: center;
+}
+
+#perolehan {
+    background-color: #e60000; /* Merah */
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    width: 150px;
+    text-align: center;
+}
+
+/* Slot Mesin */
 .slot-machine {
     display: flex;
     justify-content: center;
@@ -41,25 +64,25 @@ body {
     align-items: center;
     color: white; /* Warna teks untuk kontras */
     font-weight: bold;
-    font-size: 1.2em; /* Membuat teks lebih besar */
+    font-size: 1.2em; /* Teks lebih besar */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Bayangan untuk memperjelas teks */
 }
 
-/* Animasi per kolom dengan kecepatan lebih lambat */
+/* Animasi Spin Lebih Lambat */
 @keyframes spin {
     0% { opacity: 0.5; transform: scale(0.9); }
     50% { opacity: 1; transform: scale(1); }
     100% { opacity: 0.5; transform: scale(0.9); }
 }
 
-/* Memperpanjang durasi animasi 10 kali lebih lambat */
-.slot.spin1 { animation: spin 5s linear infinite; }
-.slot.spin2 { animation: spin 7s linear infinite; }
-.slot.spin3 { animation: spin 10s linear infinite; }
-.slot.spin4 { animation: spin 12s linear infinite; }
-.slot.spin5 { animation: spin 15s linear infinite; }
+/* Memperpanjang durasi animasi 20 kali lebih lambat */
+.slot.spin1 { animation: spin 10s linear infinite; }
+.slot.spin2 { animation: spin 14s linear infinite; }
+.slot.spin3 { animation: spin 20s linear infinite; }
+.slot.spin4 { animation: spin 24s linear infinite; }
+.slot.spin5 { animation: spin 30s linear infinite; }
 
-/* Tombol */
+/* Tombol Kontrol */
 button {
     padding: 10px 20px;
     margin: 5px;
