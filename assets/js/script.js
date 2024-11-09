@@ -93,25 +93,36 @@ function spin(times) {
     perolehan = 0;
 
     const slots = Array.from(document.querySelectorAll(".slot"));
+    
+    // Mulai animasi getar untuk 75% dari putaran yang diinginkan
+    let shakeDuration = Math.floor(times * 0.75);
     startSpinAnimation(slots);
 
     for (let i = 0; i < times; i++) {
         setTimeout(() => {
+            // Jika tombol stop ditekan, hentikan spin
             if (stopSpinRequested) {
                 stopSpinAnimation(slots);
                 updateStatus();
                 alert("Spin dihentikan.");
+                isSpinning = false;
                 return;
             }
 
+            // Perbarui gambar di setiap slot
             slots.forEach((slot) => {
                 const asset = getRandomAsset();
                 updateSlotAppearance(slot, asset);
                 perolehan += asset.value;
             });
 
-            if (i === times - 1) {
+            // Hentikan animasi setelah 75% dari total putaran selesai
+            if (i === shakeDuration - 1) {
                 stopSpinAnimation(slots);
+            }
+
+            // Jika ini putaran terakhir, cek kemenangan
+            if (i === times - 1) {
                 updateStatus();
                 if (isWinningCombination()) {
                     saldo += perolehan;
@@ -121,7 +132,7 @@ function spin(times) {
                 }
                 isSpinning = false;
             }
-        }, i * 3000); // Delay untuk setiap putaran
+        }, i * 1000); // Ubah delay menjadi 1 detik untuk mengurangi durasi total spin
     }
 }
 
