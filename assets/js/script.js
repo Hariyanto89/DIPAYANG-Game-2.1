@@ -1,14 +1,14 @@
 // Daftar aset dengan gambar dari GitHub, nilai, dan warna latar belakang
 const assets = [
-    { name: "Tanah", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/main/material/a.png?raw=true", value: 100.50, color: "#FFD700" },
-    { name: "Peralatan dan Mesin", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/main/material/b.png?raw=true", value: 200.75, color: "#8A2BE2" },
-    { name: "Gedung dan Bangunan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/main/material/c.png?raw=true", value: 300.30, color: "#FF4500" },
-    { name: "Jalan Jaringan dan Irigasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/main/material/d.png?raw=true", value: 400.10, color: "#32CD32" },
-    { name: "Aset Tetap Lainnya", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/main/material/e.png?raw=true", value: 500.60, color: "#1E90FF" },
-    { name: "Konstruksi Dalam Pengerjaan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/main/material/f.png?raw=true", value: 600.90, color: "#FF69B4" },
-    { name: "Aset Tak Berwujud", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/main/material/komputer.png?raw=true", value: 700.25, color: "#A52A2A" },
-    { name: "Aset Lain Lain", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/main/material/rusaknian.png?raw=true", value: 800.45, color: "#00CED1" },
-    { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/main/material/nADFG.png?raw=true", value: 1000.99, color: "#FF8C00" }
+    { name: "Tanah", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/a.png?raw=true", value: 100.50 },
+    { name: "Peralatan dan Mesin", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/b.png?raw=true", value: 200.75 },
+    { name: "Gedung dan Bangunan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/c.png?raw=true", value: 300.30 },
+    { name: "Jalan Jaringan dan Irigasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/d.png?raw=true", value: 400.10 },
+    { name: "Aset Tetap Lainnya", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/e.png?raw=true", value: 500.60 },
+    { name: "Konstruksi Dalam Pengerjaan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/f.png?raw=true", value: 600.90 },
+    { name: "Aset Tak Berwujud", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/komputer.png?raw=true", value: 700.25 },
+    { name: "Aset Lain Lain", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/rusaknian.png?raw=true", value: 800.45 },
+    { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png?raw=true", value: 1000.99 }
 ];
 
 // Pertanyaan kuis tentang DIPAYANG untuk menambah saldo
@@ -69,8 +69,7 @@ function getRandomAsset() {
 
 // Fungsi untuk memperbarui kolom slot saat spin berhenti
 function updateSlotAppearance(slot, asset) {
-    slot.style.backgroundImage = `url(${asset.img})`; // Hanya menampilkan gambar
-    slot.style.backgroundColor = ""; // Menghapus latar warna
+    slot.style.backgroundImage = `url(${asset.img})`; // Menampilkan gambar
     slot.setAttribute("data-asset", asset.name);
     slot.innerText = ""; // Menghapus teks di dalam slot
 }
@@ -89,7 +88,7 @@ function spin(times) {
         return;
     }
 
-    saldo -= totalCost;
+    saldo -= totalCost; // Mengurangi saldo
     const slots = Array.from(document.querySelectorAll(".slot"));
     
     startSpinAnimation(slots);
