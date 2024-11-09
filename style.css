@@ -68,19 +68,18 @@ body {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Bayangan untuk memperjelas teks */
 }
 
-/* Animasi Spin Lebih Lambat */
+/* Animasi Spin 50 Kali Lebih Lambat */
 @keyframes spin {
     0% { opacity: 0.5; transform: scale(0.9); }
     50% { opacity: 1; transform: scale(1); }
     100% { opacity: 0.5; transform: scale(0.9); }
 }
 
-/* Memperpanjang durasi animasi 20 kali lebih lambat */
-.slot.spin1 { animation: spin 10s linear infinite; }
-.slot.spin2 { animation: spin 14s linear infinite; }
-.slot.spin3 { animation: spin 20s linear infinite; }
-.slot.spin4 { animation: spin 24s linear infinite; }
-.slot.spin5 { animation: spin 30s linear infinite; }
+.slot.spin1 { animation: spin 25s linear infinite; }
+.slot.spin2 { animation: spin 35s linear infinite; }
+.slot.spin3 { animation: spin 50s linear infinite; }
+.slot.spin4 { animation: spin 60s linear infinite; }
+.slot.spin5 { animation: spin 75s linear infinite; }
 
 /* Tombol Kontrol */
 button {
