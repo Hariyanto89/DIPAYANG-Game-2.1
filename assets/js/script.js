@@ -215,3 +215,11 @@ function stopSpin() {
 
 // Update status pertama kali
 updateStatus();
+
+// Mulai musik setelah ada interaksi pengguna
+document.addEventListener("click", function() {
+    const backgroundMusic = document.getElementById("background-music");
+    if (backgroundMusic.paused) {
+        backgroundMusic.play().catch(error => console.log("Gagal memutar musik: " + error));
+    }
+}, { once: true });
