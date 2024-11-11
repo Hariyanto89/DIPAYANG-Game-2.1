@@ -17,21 +17,18 @@ const costPerSpin = 500;
 let isSpinning = false;
 let stopSpinRequested = false;
 let spinIntervals = [];
-let usedQuestions = []; // Menyimpan indeks pertanyaan yang sudah digunakan
+let usedQuestions = [];
 
 // Update tampilan saldo di HTML
 function updateStatus() {
     document.getElementById("saldo").innerText = `Saldo: ${saldo.toFixed(2)}`;
 }
 
-// Fungsi untuk menambahkan saldo secara manual
-function addBalance(amount) {
-    saldo += amount;
-    updateStatus();
-    alert(`Saldo berhasil ditambah sebesar ${amount}.`);
-}
+// Fungsi untuk memutar musik latar saat halaman dimuat
+const backgroundMusic = document.getElementById("background-music");
+backgroundMusic.volume = 0.5;  // Atur volume musik latar
 
-// Fungsi untuk memulai kuis pengisian saldo dengan pilihan acak
+// Fungsi untuk memulai kuis pengisian saldo
 function startQuiz() {
     const questions = [
     { question: "Apa kepanjangan dari DIPAYANG?", options: ["Digitalisasi Pengamanan Aset Kepahiang", "Digitalisasi Pengelolaan Aset Kepahiang"], answer: 1 },
@@ -67,18 +64,18 @@ function startQuiz() {
     { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset gedung dan bangunan?", options: ["Dengan fitur kurva yang menyajikan detail kondisi dan nilai aset", "Dengan fitur pemesanan ruangan"], answer: 0 },
 ];
 
-     if (questions.length === usedQuestions.length) {
+    if (questions.length === usedQuestions.length) {
         alert("Tidak ada lagi pertanyaan.");
         return;
     }
 
-    // Memilih indeks pertanyaan baru yang belum pernah digunakan
+    // Memilih pertanyaan baru yang belum digunakan
     let randomIndex;
     do {
         randomIndex = Math.floor(Math.random() * questions.length);
     } while (usedQuestions.includes(randomIndex));
 
-    // Tambahkan indeks ke daftar pertanyaan yang sudah digunakan
+    // Tambah indeks ke pertanyaan yang sudah digunakan
     usedQuestions.push(randomIndex);
     const selectedQuestion = questions[randomIndex];
 
@@ -99,10 +96,9 @@ function startQuiz() {
 
     const userAnswerIndex = shuffledOptions[parseInt(userAnswer) - 1]?.index;
     if (userAnswerIndex === selectedQuestion.answer) {
-        const reward = 1000;
-        saldo += reward;
+        saldo += 1000;
         updateStatus();
-        alert(`Jawaban benar! Anda mendapatkan saldo tambahan sebesar ${reward}.`);
+        alert("Jawaban benar! Anda mendapatkan saldo tambahan sebesar 1000.");
     } else {
         alert("Jawaban salah. Coba lagi lain kali.");
     }
@@ -157,7 +153,6 @@ function spin(times) {
                 return;
             }
 
-            // Reset dan periksa jumlah kemunculan tiap aset
             let counts = {};
             slots.forEach(slot => {
                 const asset = getRandomAsset();
@@ -165,7 +160,6 @@ function spin(times) {
                 counts[asset.name] = (counts[asset.name] || 0) + 1;
             });
 
-            // Periksa aturan kemenangan setelah putaran terakhir atau jika spin dihentikan
             if (i === times - 1 || stopSpinRequested) {
                 stopSpinAnimation(slots);
                 calculateWin(counts);
@@ -183,22 +177,22 @@ function calculateWin(counts) {
     let winAmount = 0;
     let message = "";
 
-    // Periksa kemunculan masing-masing aset
-    if (counts["Tanah"] === 5) {
+    // Aturan Kemenangan
+    if (counts["Tanah"] === 10) {
         winAmount += 1000;
-        message += "Tanah muncul 5x! Anda menang 1000 poin.\n";
+        message += "Tanah muncul 10x! Anda menang 1000 poin.\n";
     }
-    if (counts["Properti Investasi"] === 5) {
-        winAmount += 5000;  // Jackpot untuk Properti Investasi
-        message += "Properti Investasi muncul 5x! Anda mendapatkan Jackpot 5000 poin!\n";
+    if (counts["Properti Investasi"] === 10) {
+        winAmount += 5000;
+        message += "Properti Investasi muncul 10x! Jackpot 5000 poin!\n";
     }
-    if (Object.values(counts).every(count => count === 10)) {
-        winAmount += 5000; // Bonus jika semua aset muncul masing-masing 10x
-        message += "Seluruh aset muncul 10x! Anda menang 5000 poin!\n";
+    if (Object.values(counts).every(count => count === 20)) {
+        winAmount += 5000;
+        message += "Semua aset muncul 20x! Anda menang 5000 poin!\n";
     }
-    if (Object.values(counts).every(count => count < 5)) {
-        winAmount -= 1000; // Denda jika tidak ada aset yang muncul 5x
-        message += "Tidak ada aset yang muncul 5x. Anda kehilangan 1000 poin.\n";
+    if (Object.values(counts).every(count => count < 10)) {
+        winAmount -= 1000;
+        message += "Tidak ada aset yang muncul 10x. Anda kehilangan 1000 poin.\n";
     }
 
     saldo += winAmount;
@@ -211,10 +205,7 @@ function clearAllSpinIntervals() {
     spinIntervals = [];
 }
 
-// Akses elemen audio
-const backgroundMusic = document.getElementById("background-music");
-
-// Fungsi tombol Stop Spin
+// Fungsi untuk tombol Stop Spin
 function stopSpin() {
     stopSpinRequested = true;
     clearAllSpinIntervals();
