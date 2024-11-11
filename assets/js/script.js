@@ -67,7 +67,7 @@ function startQuiz() {
     { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset gedung dan bangunan?", options: ["Dengan fitur kurva yang menyajikan detail kondisi dan nilai aset", "Dengan fitur pemesanan ruangan"], answer: 0 },
 ];
 
-      if (questions.length === usedQuestions.length) {
+     if (questions.length === usedQuestions.length) {
         alert("Tidak ada lagi pertanyaan.");
         return;
     }
@@ -126,6 +126,7 @@ function getRandomAsset() {
 // Fungsi untuk memperbarui tampilan slot
 function updateSlotAppearance(slot, asset) {
     slot.style.backgroundImage = `url(${asset.img})`;
+    slot.setAttribute("data-asset", asset.name);
     slot.innerText = "";
 }
 
@@ -156,23 +157,18 @@ function spin(times) {
                 return;
             }
 
-            let perolehan = 0;
+            // Reset dan periksa jumlah kemunculan tiap aset
+            let counts = {};
             slots.forEach(slot => {
                 const asset = getRandomAsset();
                 updateSlotAppearance(slot, asset);
-                perolehan += asset.value;
+                counts[asset.name] = (counts[asset.name] || 0) + 1;
             });
 
-            // Jika ini putaran terakhir atau stop spin diminta, hentikan animasi
+            // Periksa aturan kemenangan setelah putaran terakhir atau jika spin dihentikan
             if (i === times - 1 || stopSpinRequested) {
                 stopSpinAnimation(slots);
-                if (isWinningCombination()) {
-                    saldo += perolehan;
-                    alert("Selamat! Anda Menang!");
-                } else {
-                    saldo -= costPerSpin; // Kurangi saldo jika kalah
-                    alert("Tidak berhasil. Coba lagi!");
-                }
+                calculateWin(counts);
                 updateStatus();
                 isSpinning = false;
             }
@@ -180,6 +176,33 @@ function spin(times) {
 
         spinIntervals.push(intervalId);
     }
+}
+
+// Fungsi menghitung kemenangan berdasarkan aturan
+function calculateWin(counts) {
+    let winAmount = 0;
+    let message = "";
+
+    // Periksa kemunculan masing-masing aset
+    if (counts["Tanah"] === 5) {
+        winAmount += 1000;
+        message += "Tanah muncul 5x! Anda menang 1000 poin.\n";
+    }
+    if (counts["Properti Investasi"] === 5) {
+        winAmount += 5000;  // Jackpot untuk Properti Investasi
+        message += "Properti Investasi muncul 5x! Anda mendapatkan Jackpot 5000 poin!\n";
+    }
+    if (Object.values(counts).every(count => count === 10)) {
+        winAmount += 5000; // Bonus jika semua aset muncul masing-masing 10x
+        message += "Seluruh aset muncul 10x! Anda menang 5000 poin!\n";
+    }
+    if (Object.values(counts).every(count => count < 5)) {
+        winAmount -= 1000; // Denda jika tidak ada aset yang muncul 5x
+        message += "Tidak ada aset yang muncul 5x. Anda kehilangan 1000 poin.\n";
+    }
+
+    saldo += winAmount;
+    alert(message || "Tidak ada kemenangan. Coba lagi!");
 }
 
 // Fungsi untuk menghentikan semua spin
@@ -194,12 +217,6 @@ function stopSpin() {
     clearAllSpinIntervals();
     stopSpinAnimation(Array.from(document.querySelectorAll(".slot")));
     isSpinning = false;
-}
-
-// Fungsi untuk cek kombinasi menang
-function isWinningCombination() {
-    const slotValues = Array.from(document.querySelectorAll(".slot")).map(slot => slot.style.backgroundColor);
-    return new Set(slotValues).size === 1;
 }
 
 // Update status pertama kali
