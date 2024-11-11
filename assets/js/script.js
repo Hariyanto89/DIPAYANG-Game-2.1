@@ -68,12 +68,22 @@ function startQuiz() {
     { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset gedung dan bangunan?", options: ["Dengan fitur kurva yang menyajikan detail kondisi dan nilai aset", "Dengan fitur pemesanan ruangan"], answer: 0 },
 ];
 
-    if (questions.length === 0) {
+    if (questions.length === usedQuestions.length) {
         alert("Tidak ada lagi pertanyaan.");
         return;
     }
 
-    const selectedQuestion = questions[Math.floor(Math.random() * questions.length)];
+    // Memilih indeks pertanyaan baru yang belum pernah digunakan
+    let randomIndex;
+    do {
+        randomIndex = Math.floor(Math.random() * questions.length);
+    } while (usedQuestions.includes(randomIndex));
+
+    // Tambahkan indeks ke daftar pertanyaan yang sudah digunakan
+    usedQuestions.push(randomIndex);
+    const selectedQuestion = questions[randomIndex];
+
+    // Mengacak pilihan jawaban
     const shuffledOptions = selectedQuestion.options.map((option, index) => ({ option, index }))
         .sort(() => Math.random() - 0.5);
 
