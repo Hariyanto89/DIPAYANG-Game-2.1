@@ -1,4 +1,4 @@
-// Daftar aset dengan gambar dari GitHub, nilai, dan warna latar belakang
+// Daftar aset dengan gambar dari GitHub dan nilai
 const assets = [
     { name: "Tanah", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/a.png?raw=true", value: 100.50 },
     { name: "Peralatan dan Mesin", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/b.png?raw=true", value: 200.75 },
@@ -14,121 +14,44 @@ const assets = [
 // Variabel untuk saldo dan perolehan
 let saldo = 10000.00;
 let perolehan = 0.00;
-const costPerSpin = 500; // Biaya per spin dasar
-let isSpinning = false; // Untuk cek apakah spin sedang berlangsung
-let stopSpinRequested = false; // Untuk mengecek jika spin dihentikan oleh tombol stop
-let spinIntervals = []; // Array untuk menyimpan interval ID agar dapat dihentikan
+const costPerSpin = 500;
+let isSpinning = false;
+let stopSpinRequested = false;
+let spinIntervals = [];
 
-// Update saldo dan perolehan di HTML
+// Update tampilan saldo dan perolehan di HTML
 function updateStatus() {
-    document.getElementById("saldo").innerText = saldo.toFixed(2);
-    document.getElementById("perolehan").innerText = perolehan.toFixed(2);
+    document.getElementById("saldo").innerText = `Saldo: ${saldo.toFixed(2)}`;
+    document.getElementById("perolehan").innerText = `Perolehan: ${perolehan.toFixed(2)}`;
 }
 
-// Fungsi animasi spin
-function startSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.add("shake"));
+// Fungsi untuk menambahkan saldo secara manual
+function addBalance(amount) {
+    saldo += amount;
+    updateStatus();
+    alert(`Saldo berhasil ditambah sebesar ${amount}.`);
 }
 
-// Hentikan animasi
-function stopSpinAnimation(slots) {
-    slots.forEach(slot => {
-        slot.classList.remove("shake");
-    });
-}
-
-// Fungsi untuk mendapatkan aset acak
-function getRandomAsset() {
-    return assets[Math.floor(Math.random() * assets.length)];
-}
-
-// Fungsi untuk memperbarui kolom slot saat spin berhenti
-function updateSlotAppearance(slot, asset) {
-    slot.style.backgroundImage = `url(${asset.img})`; // Menampilkan gambar
-    slot.setAttribute("data-asset", asset.name);
-    slot.innerText = ""; // Menghapus teks di dalam slot
-}
-
-// Fungsi untuk Spin dengan jumlah putaran
-function spin(times) {
-    if (isSpinning) return;  // Cegah spin ganda
-    isSpinning = true;
-    stopSpinRequested = false; // Reset status stop
-    perolehan = 0;
-
-    const totalCost = costPerSpin * times;
-    if (saldo < totalCost) {
-        alert("Saldo tidak cukup untuk spin ini!");
-        isSpinning = false;
-        return;
-    }
-
-    saldo -= totalCost; // Mengurangi saldo
-    const slots = Array.from(document.querySelectorAll(".slot"));
-    
-    startSpinAnimation(slots);
-
-    for (let i = 0; i < times; i++) {
-        const intervalId = setTimeout(() => {
-            // Jika tombol stop ditekan, hentikan spin segera
-            if (stopSpinRequested) {
-                clearAllSpinIntervals();
-                stopSpinAnimation(slots);
-                updateStatus();
-                alert("Spin dihentikan.");
-                isSpinning = false;
-                return;
-            }
-
-            // Perbarui gambar di setiap slot
-            slots.forEach((slot) => {
-                const asset = getRandomAsset();
-                updateSlotAppearance(slot, asset);
-                perolehan += asset.value;
-            });
-
-            // Jika ini putaran terakhir atau stop spin diminta, hentikan animasi
-            if (i === times - 1 || stopSpinRequested) {
-                stopSpinAnimation(slots);
-                updateStatus();
-                if (!stopSpinRequested && isWinningCombination()) {
-                    saldo += perolehan;
-                    alert("Selamat! Anda Menang!");
-                } else if (!stopSpinRequested) {
-                    alert("Tidak berhasil. Coba lagi!");
-                }
-                isSpinning = false;
-            }
-        }, i * 1000); // Delay 1 detik per putaran
-
-        // Simpan interval ID agar bisa dihentikan semua jika diperlukan
-        spinIntervals.push(intervalId);
-    }
-}
-
-// Fungsi untuk menghentikan semua interval spin
-function clearAllSpinIntervals() {
-    spinIntervals.forEach(intervalId => clearTimeout(intervalId));
-    spinIntervals = [];
-}
-
-// Fungsi untuk memulai kuis pengisian saldo
+// Fungsi untuk memulai kuis pengisian saldo dengan pilihan acak
 function startQuiz() {
-    if (availableQuestions.length === 0) {
+    const questions = [
+        { question: "Apakah warna bendera Indonesia?", options: ["Merah Putih", "Putih Merah"], answer: 0 },
+        { question: "Siapa presiden pertama Indonesia?", options: ["Soekarno", "Soeharto"], answer: 0 }
+    ];
+
+    if (questions.length === 0) {
         alert("Tidak ada lagi pertanyaan.");
         return;
     }
 
-    // Ambil pertanyaan acak
-    const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-    const selectedQuestion = availableQuestions[randomIndex];
+    const selectedQuestion = questions[Math.floor(Math.random() * questions.length)];
+    const shuffledOptions = selectedQuestion.options.map((option, index) => ({ option, index }))
+        .sort(() => Math.random() - 0.5);
 
-    // Tampilkan prompt pertanyaan kuis
     const userAnswer = prompt(
         `${selectedQuestion.question}\n` +
-        `1. ${selectedQuestion.options[0]}\n` +
-        `2. ${selectedQuestion.options[1]}\n` +
-        `Ketik 1 atau 2 untuk jawaban Anda:`
+        shuffledOptions.map((opt, i) => `${i + 1}. ${opt.option}`).join("\n") +
+        `\nKetik nomor jawaban Anda:`
     );
 
     if (userAnswer === null) {
@@ -136,7 +59,7 @@ function startQuiz() {
         return;
     }
 
-    const userAnswerIndex = parseInt(userAnswer) - 1;
+    const userAnswerIndex = shuffledOptions[parseInt(userAnswer) - 1]?.index;
     if (userAnswerIndex === selectedQuestion.answer) {
         const reward = 1000;
         saldo += reward;
@@ -147,12 +70,84 @@ function startQuiz() {
     }
 }
 
-// Tombol Stop untuk menghentikan spin
+// Fungsi animasi spin
+function startSpinAnimation(slots) {
+    slots.forEach(slot => slot.classList.add("shake"));
+}
+
+// Hentikan animasi spin
+function stopSpinAnimation(slots) {
+    slots.forEach(slot => slot.classList.remove("shake"));
+}
+
+// Fungsi untuk mendapatkan aset acak
+function getRandomAsset() {
+    return assets[Math.floor(Math.random() * assets.length)];
+}
+
+// Fungsi untuk memperbarui tampilan slot
+function updateSlotAppearance(slot, asset) {
+    slot.style.backgroundImage = `url(${asset.img})`;
+    slot.innerText = "";
+}
+
+// Fungsi untuk spin slot
+function spin(times) {
+    if (isSpinning) return;
+    isSpinning = true;
+    stopSpinRequested = false;
+    perolehan = 0;
+
+    if (saldo < costPerSpin * times) {
+        alert("Saldo tidak cukup untuk spin ini!");
+        isSpinning = false;
+        return;
+    }
+
+    saldo -= costPerSpin * times;
+    const slots = Array.from(document.querySelectorAll(".slot"));
+    startSpinAnimation(slots);
+
+    for (let i = 0; i < times; i++) {
+        const intervalId = setTimeout(() => {
+            if (stopSpinRequested) {
+                clearAllSpinIntervals();
+                stopSpinAnimation(slots);
+                updateStatus();
+                isSpinning = false;
+                return;
+            }
+
+            slots.forEach(slot => {
+                const asset = getRandomAsset();
+                updateSlotAppearance(slot, asset);
+                perolehan += asset.value;
+            });
+
+            if (i === times - 1 || stopSpinRequested) {
+                stopSpinAnimation(slots);
+                saldo += perolehan;
+                updateStatus();
+                isSpinning = false;
+            }
+        }, i * 1000);
+
+        spinIntervals.push(intervalId);
+    }
+}
+
+// Fungsi untuk menghentikan semua spin
+function clearAllSpinIntervals() {
+    spinIntervals.forEach(intervalId => clearTimeout(intervalId));
+    spinIntervals = [];
+}
+
+// Fungsi tombol Stop Spin
 function stopSpin() {
     stopSpinRequested = true;
-    clearAllSpinIntervals(); // Hentikan semua interval spin segera
-    stopSpinAnimation(Array.from(document.querySelectorAll(".slot"))); // Hentikan animasi
-    isSpinning = false; // Reset status spinning
+    clearAllSpinIntervals();
+    stopSpinAnimation(Array.from(document.querySelectorAll(".slot")));
+    isSpinning = false;
 }
 
 // Fungsi untuk cek kombinasi menang
