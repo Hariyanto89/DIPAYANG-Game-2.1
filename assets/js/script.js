@@ -11,18 +11,17 @@ const assets = [
     { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png?raw=true", value: 1000.99 }
 ];
 
-// Variabel untuk saldo dan perolehan
+// Variabel untuk saldo
 let saldo = 10000.00;
-let perolehan = 0.00;
 const costPerSpin = 500;
 let isSpinning = false;
 let stopSpinRequested = false;
 let spinIntervals = [];
+let usedQuestions = []; // Menyimpan indeks pertanyaan yang sudah digunakan
 
-// Update tampilan saldo dan perolehan di HTML
+// Update tampilan saldo di HTML
 function updateStatus() {
     document.getElementById("saldo").innerText = `Saldo: ${saldo.toFixed(2)}`;
-    document.getElementById("perolehan").innerText = `Perolehan: ${perolehan.toFixed(2)}`;
 }
 
 // Fungsi untuk menambahkan saldo secara manual
@@ -68,7 +67,7 @@ function startQuiz() {
     { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset gedung dan bangunan?", options: ["Dengan fitur kurva yang menyajikan detail kondisi dan nilai aset", "Dengan fitur pemesanan ruangan"], answer: 0 },
 ];
 
-    if (questions.length === usedQuestions.length) {
+      if (questions.length === usedQuestions.length) {
         alert("Tidak ada lagi pertanyaan.");
         return;
     }
@@ -135,15 +134,15 @@ function spin(times) {
     if (isSpinning) return;
     isSpinning = true;
     stopSpinRequested = false;
-    perolehan = 0;
+    let totalBetCost = costPerSpin * times;
 
-    if (saldo < costPerSpin * times) {
+    if (saldo < totalBetCost) {
         alert("Saldo tidak cukup untuk spin ini!");
         isSpinning = false;
         return;
     }
 
-    saldo -= costPerSpin * times;
+    saldo -= totalBetCost;
     const slots = Array.from(document.querySelectorAll(".slot"));
     startSpinAnimation(slots);
 
@@ -157,15 +156,23 @@ function spin(times) {
                 return;
             }
 
+            let perolehan = 0;
             slots.forEach(slot => {
                 const asset = getRandomAsset();
                 updateSlotAppearance(slot, asset);
                 perolehan += asset.value;
             });
 
+            // Jika ini putaran terakhir atau stop spin diminta, hentikan animasi
             if (i === times - 1 || stopSpinRequested) {
                 stopSpinAnimation(slots);
-                saldo += perolehan;
+                if (isWinningCombination()) {
+                    saldo += perolehan;
+                    alert("Selamat! Anda Menang!");
+                } else {
+                    saldo -= costPerSpin; // Kurangi saldo jika kalah
+                    alert("Tidak berhasil. Coba lagi!");
+                }
                 updateStatus();
                 isSpinning = false;
             }
