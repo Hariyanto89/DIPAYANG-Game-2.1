@@ -211,6 +211,12 @@ function clearAllSpinIntervals() {
     spinIntervals = [];
 }
 
+// Akses elemen audio
+const backgroundMusic = document.getElementById("background-music");
+
+// Menyesuaikan volume jika diperlukan
+backgroundMusic.volume = 0.5;  // 0.5 adalah 50% volume
+
 // Fungsi tombol Stop Spin
 function stopSpin() {
     stopSpinRequested = true;
