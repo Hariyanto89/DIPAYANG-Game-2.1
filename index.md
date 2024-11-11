@@ -43,16 +43,6 @@
         <div class="slot" id="slot25"></div>
     </div>
 
-    <div class="button-group">
-        <button onclick="playSpinSound(); spin(1)">Spin 1x</button>
-        <button onclick="playSpinSound(); spin(3)">Spin 3x</button>
-        <button onclick="playSpinSound(); spin(5)">Spin 5x</button>
-        <button onclick="playSpinSound(); spin(100)">Max Bet</button>
-    </div>
-
-    <button onclick="playQuizSound(); startQuiz()">Isi Saldo (Kuis)</button>
-</div>
-
 <script src="script.js"></script>
 </body>
 </html>
