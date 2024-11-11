@@ -35,9 +35,38 @@ function addBalance(amount) {
 // Fungsi untuk memulai kuis pengisian saldo dengan pilihan acak
 function startQuiz() {
     const questions = [
-        { question: "Apakah warna bendera Indonesia?", options: ["Merah Putih", "Putih Merah"], answer: 0 },
-        { question: "Siapa presiden pertama Indonesia?", options: ["Soekarno", "Soeharto"], answer: 0 }
-    ];
+    { question: "Apa kepanjangan dari DIPAYANG?", options: ["Digitalisasi Pengamanan Aset Kepahiang", "Digitalisasi Pengelolaan Aset Kepahiang"], answer: 1 },
+    { question: "Platform apa yang digunakan oleh DIPAYANG untuk memberikan kemudahan akses?", options: ["AppSheet", "AppMaker"], answer: 0 },
+    { question: "Apa tujuan utama dari aplikasi DIPAYANG?", options: ["Mengamankan dan mengelola aset daerah secara digital", "Mengelola keuangan daerah"], answer: 0 },
+    { question: "Fitur apa yang digunakan DIPAYANG untuk menilai tingkat keamanan fisik aset?", options: ["Indikator berwarna", "Grafik batang"], answer: 0 },
+    { question: "Apa fungsi dari fitur KIBAR dalam DIPAYANG?", options: ["Mencatat inventaris barang aset daerah", "Mengelola keuangan daerah"], answer: 0 },
+    { question: "Dokumen legal apa yang dijamin keberadaannya oleh fitur pengamanan hukum DIPAYANG?", options: ["Sertifikat tanah dan surat hibah", "Surat izin usaha"], answer: 0 },
+    { question: "Apa manfaat dari fitur autentikasi pengguna dalam DIPAYANG?", options: ["Memastikan keamanan data dari akses yang tidak sah", "Mempercepat proses login"], answer: 0 },
+    { question: "Bagaimana DIPAYANG memastikan data yang diinput dan disimpan aman?", options: ["Menggunakan enkripsi data dan kontrol akses", "Menggunakan password sederhana"], answer: 0 },
+    { question: "Apa yang dimaksud dengan RKBMD dalam konteks DIPAYANG?", options: ["Rencana Kebutuhan Barang Milik Daerah", "Rencana Keuangan Barang Milik Daerah"], answer: 0 },
+    { question: "Fitur apa yang ditambahkan dalam update terbaru DIPAYANG untuk memantau aktivitas pengguna?", options: ["Changelog", "Dashboard"], answer: 1 },
+    { question: "Apa tujuan dari penambahan fitur changelog dalam DIPAYANG?", options: ["Memantau setiap aktivitas pengguna secara real-time", "Menambah fitur permainan"], answer: 0 },
+    { question: "Bagaimana fitur changelog membantu dalam pengelolaan aset daerah?", options: ["Menciptakan sistem yang lebih transparan dan akuntabel", "Mempercepat proses pengadaan barang"], answer: 0 },
+    { question: "Apa fungsi dari fitur lepas ASN dalam DIPAYANG?", options: ["Menghapus status ASN dari aset daerah yang terkait", "Menambah ASN baru"], answer: 0 },
+    { question: "Mengapa fitur lepas ASN penting dalam pengelolaan aset?", options: ["Untuk memastikan ASN yang pindah, pensiun, atau meninggal tidak lagi terikat dengan tanggung jawab aset daerah", "Untuk menambah tanggung jawab ASN"], answer: 0 },
+    { question: "Apa manfaat dari fitur pengingat pajak dalam DIPAYANG?", options: ["Memastikan pembayaran pajak aset daerah dilakukan tepat waktu", "Mengingatkan jadwal rapat"], answer: 0 },
+    { question: "Bagaimana DIPAYANG membantu dalam proses audit dan pengawasan aset?", options: ["Dengan fitur changelog yang memantau seluruh aktivitas pengguna", "Dengan fitur permainan"], answer: 0 },
+    { question: "Apa yang dimaksud dengan KIBAR dalam DIPAYANG?", options: ["Kartu Inventaris Barang Aset Daerah", "Kartu Identitas Barang"], answer: 0 },
+    { question: "Bagaimana DIPAYANG membantu dalam pengelolaan RKBMD?", options: ["Memungkinkan penginputan dan rekapitulasi data secara digital", "Menyediakan template dokumen"], answer: 0 },
+    { question: "Apa manfaat dari fitur rekapitulasi fisik RKBMD dalam DIPAYANG?", options: ["Memudahkan pengunduhan dan verifikasi data usulan RKBMD", "Menyediakan laporan keuangan"], answer: 1 },
+    { question: "Mengapa OPD diwajibkan membuat laporan RKBMD NIHIL jika tidak memiliki usulan?", options: ["Sebagai bukti kepatuhan administrasi", "Untuk mendapatkan anggaran tambahan"], answer: 0 },
+    { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset kendaraan dinas?", options: ["Dengan fitur pajak kendaraan yang memantau status pembayaran pajak", "Dengan fitur pemesanan kendaraan"], answer: 0 },
+    { question: "Apa fungsi dari sub-menu 'Lunas Pajak' dalam DIPAYANG?", options: ["Menampilkan daftar kendaraan yang telah melunasi pajak", "Menampilkan daftar kendaraan yang belum membayar pajak"], answer: 0 },
+    { question: "Bagaimana fitur 'Ingat Pajak' dalam DIPAYANG membantu pengelola aset?", options: ["Memberikan notifikasi saat kendaraan mendekati jatuh tempo pembayaran pajak", "Mengingatkan jadwal servis kendaraan"], answer: 0 },
+    { question: "Apa tujuan dari penambahan fitur kurva dalam DIPAYANG?", options: ["Menyajikan gambaran detail terkait kondisi dan nilai aset", "Menyediakan grafik keuangan"], answer: 0 },
+    { question: "Bagaimana fitur cetak rekapitulasi RKBMD dalam format Excel dan PDF membantu OPD?", options: ["Mempermudah penyusunan laporan yang akurat dan sesuai standar", "Menyediakan template presentasi"], answer: 0 },
+    { question: "Apa manfaat dari fitur QR Code untuk setiap aset dalam DIPAYANG?", options: ["Menghubungkan langsung dengan database pusat", "Menyediakan akses ke media sosial"], answer: 0 },
+    { question: "Bagaimana DIPAYANG membantu dalam perencanaan pengelolaan aset daerah?", options: ["Dengan fitur kurva yang memetakan dan mengevaluasi kondisi aset", "Dengan fitur kalender"], answer: 0 },
+    { question: "Apa yang dimaksud dengan fitur 'Kurva Pajak' dalam DIPAYANG?", options: ["Menampilkan tren pembayaran pajak kendaraan dinas secara visual", "Menampilkan grafik keuangan daerah"], answer: 0 },
+    { question: "Bagaimana DIPAYANG meningkatkan transparansi dalam pengelolaan aset?", options: ["Dengan fitur changelog yang mencatat setiap aktivitas pengguna", "Dengan fitur chat"], answer: 0 },
+    { question: "Apa manfaat dari fitur autentikasi pengguna dalam DIPAYANG?", options: ["Memastikan hanya pengguna terdaftar yang dapat mengakses aplikasi", "Mempercepat proses login"], answer: 0 },
+    { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset gedung dan bangunan?", options: ["Dengan fitur kurva yang menyajikan detail kondisi dan nilai aset", "Dengan fitur pemesanan ruangan"], answer: 0 },
+];
 
     if (questions.length === 0) {
         alert("Tidak ada lagi pertanyaan.");
