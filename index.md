@@ -9,6 +9,9 @@
 <div class="container">
     <h1>Mesin Slot DIPAYANG</h1>
 
+    <!-- Suara Latar Belakang -->
+    <audio id="background-music" src="https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/pookatori-and-friends-kevin-macleod-main-version-24903-04-07.mp3" autoplay loop></audio>
+
     <div id="saldo">Saldo: 10000.00</div>
 
     <div class="slot-machine">
@@ -41,13 +44,13 @@
     </div>
 
     <div class="button-group">
-        <button onclick="spin(1)">Spin 1x</button>
-        <button onclick="spin(3)">Spin 3x</button>
-        <button onclick="spin(5)">Spin 5x</button>
-        <button onclick="spin(100)">Max Bet</button>
+        <button onclick="playSpinSound(); spin(1)">Spin 1x</button>
+        <button onclick="playSpinSound(); spin(3)">Spin 3x</button>
+        <button onclick="playSpinSound(); spin(5)">Spin 5x</button>
+        <button onclick="playSpinSound(); spin(100)">Max Bet</button>
     </div>
 
-    <button onclick="startQuiz()">Isi Saldo (Kuis)</button>
+    <button onclick="playQuizSound(); startQuiz()">Isi Saldo (Kuis)</button>
 </div>
 
 <script src="script.js"></script>
