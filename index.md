@@ -1,42 +1,33 @@
----
-layout: default
-title: Game Slot Aset Tetap
-remote_theme: pages-themes/time-machine@v0.2.0
-plugins:
-  - jekyll-remote-theme
----
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesin Slot DIPAYANG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Mesin Slot DIPAYANG</h1>
 
-# Game Slot Aset Tetap
+        <div class="status">
+            <div id="saldo">Saldo: 0.00</div>
+            <div id="perolehan">Perolehan: 0.00</div>
+        </div>
 
-<div class="container">
-    <h1>Game Slot Aset Tetap</h1>
-    
-    <!-- Kolom Saldo dan Perolehan -->
-    <div class="status">
-        <div id="saldo">10000.00</div>
-        <div id="perolehan">0.00</div>
-    </div>
-    
-    <!-- Slot Mesin -->
-    <div class="slot-machine">
-        <div id="slot1" class="slot"></div>
-        <div id="slot2" class="slot"></div>
-        <div id="slot3" class="slot"></div>
-        <div id="slot4" class="slot"></div>
-        <div id="slot5" class="slot"></div>
-    </div>
-    
-    <!-- Tombol Kontrol untuk berbagai jenis spin -->
-    <div class="controls">
-        <button onclick="spin(1)">Spin 1x</button>
-        <button onclick="spin(2)">Spin 2x</button>
-        <button onclick="spin(3)">Spin 3x</button>
-        <button onclick="maxBet()">Max Bet</button>
-        <button onclick="startQuiz()">Isi Saldo</button>
-        <button onclick="stopSpin()">Stop</button>
-    </div>
-</div>
+        <div class="slot-machine">
+            <div class="slot" id="slot1"></div>
+            <div class="slot" id="slot2"></div>
+            <div class="slot" id="slot3"></div>
+            <div class="slot" id="slot4"></div>
+            <div class="slot" id="slot5"></div>
+        </div>
 
-<!-- Menyertakan JavaScript dan CSS -->
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-<script src="{{ site.baseurl }}/assets/js/script.js"></script>
+        <button onclick="spin(5)">Spin 5x</button>
+        <button onclick="stopSpin()">Stop Spin</button>
+        <button onclick="startQuiz()">Isi Saldo (Kuis)</button>
+        <button onclick="addBalance(1000)">Tambah Saldo +1000</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
