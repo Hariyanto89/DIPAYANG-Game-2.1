@@ -13,12 +13,12 @@ body {
 .container {
     text-align: center;
     background-color: #ffffff;
-    padding: 30px;
+    padding: 20px;
     border-radius: 15px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    max-width: 700px;
+    max-width: 90vw;
     width: 100%;
-    margin: 20px;
+    margin: 10px;
 }
 
 /* Kolom Saldo */
@@ -28,7 +28,7 @@ body {
     padding: 12px;
     border-radius: 10px;
     font-weight: bold;
-    width: 250px;
+    width: auto;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-size: 1.5em;
@@ -44,8 +44,8 @@ body {
 }
 
 .slot {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border: 3px solid #333;
     border-radius: 10px;
     background-size: cover;
@@ -80,7 +80,7 @@ body {
 
 /* Tombol Kontrol */
 button {
-    padding: 12px 25px;
+    padding: 12px 20px;
     margin: 10px;
     font-size: 1em;
     cursor: pointer;
@@ -106,4 +106,32 @@ button:active {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
+}
+
+/* Responsivitas untuk Perangkat yang Lebih Kecil */
+@media (max-width: 768px) {
+    .slot-machine {
+        grid-template-columns: repeat(3, 1fr); /* 3 kolom untuk layar tablet atau ponsel lebih besar */
+    }
+    .slot {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .slot-machine {
+        grid-template-columns: repeat(2, 1fr); /* 2 kolom untuk layar ponsel lebih kecil */
+    }
+    .slot {
+        width: 60px;
+        height: 60px;
+    }
+    #saldo {
+        font-size: 1.2em; /* Menyesuaikan ukuran font saldo pada ponsel */
+    }
+    button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
 }
