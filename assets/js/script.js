@@ -8,7 +8,8 @@ const assets = [
     { name: "Konstruksi Dalam Pengerjaan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/f.png?raw=true", value: 600.90 },
     { name: "Aset Tak Berwujud", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/komputer.png?raw=true", value: 700.25 },
     { name: "Aset Lain Lain", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/rusaknian.png?raw=true", value: 800.45 },
-    { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png?raw=true", value: 1000.99 }
+    { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png?raw=true", value: 1000.99 },
+    { name: "Zonk", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/zonk.png?raw=true", value: -2.93 } // Tambahkan Zonk
 ];
 
 // Variabel untuk saldo
@@ -24,9 +25,13 @@ function updateStatus() {
     document.getElementById("saldo").innerText = `Saldo: ${saldo.toFixed(2)}`;
 }
 
-// Fungsi untuk memutar musik latar saat halaman dimuat
-const backgroundMusic = document.getElementById("background-music");
-backgroundMusic.volume = 0.5;  // Atur volume musik latar
+// Mulai musik setelah ada interaksi pengguna
+document.addEventListener("click", function() {
+    const backgroundMusic = document.getElementById("background-music");
+    if (backgroundMusic.paused) {
+        backgroundMusic.play().catch(error => console.log("Gagal memutar musik: " + error));
+    }
+}, { once: true });
 
 // Fungsi untuk memulai kuis pengisian saldo
 function startQuiz() {
@@ -153,6 +158,7 @@ function spin(times) {
                 return;
             }
 
+            // Hitung kemunculan setiap aset
             let counts = {};
             slots.forEach(slot => {
                 const asset = getRandomAsset();
@@ -160,6 +166,7 @@ function spin(times) {
                 counts[asset.name] = (counts[asset.name] || 0) + 1;
             });
 
+            // Setelah putaran terakhir, atau jika spin dihentikan, hitung kemenangan
             if (i === times - 1 || stopSpinRequested) {
                 stopSpinAnimation(slots);
                 calculateWin(counts);
@@ -177,7 +184,14 @@ function calculateWin(counts) {
     let winAmount = 0;
     let message = "";
 
-    // Aturan Kemenangan
+    // Pengurangan saldo jika Zonk muncul
+    if (counts["Zonk"]) {
+        let zonkPenalty = counts["Zonk"] * 2.93;
+        winAmount -= zonkPenalty;
+        message += `Zonk muncul ${counts["Zonk"]}x! Saldo berkurang ${zonkPenalty.toFixed(2)} poin.\n`;
+    }
+
+    // Aturan Kemenangan lainnya
     if (counts["Tanah"] === 10) {
         winAmount += 1000;
         message += "Tanah muncul 10x! Anda menang 1000 poin.\n";
@@ -215,11 +229,3 @@ function stopSpin() {
 
 // Update status pertama kali
 updateStatus();
-
-// Mulai musik setelah ada interaksi pengguna
-document.addEventListener("click", function() {
-    const backgroundMusic = document.getElementById("background-music");
-    if (backgroundMusic.paused) {
-        backgroundMusic.play().catch(error => console.log("Gagal memutar musik: " + error));
-    }
-}, { once: true });
