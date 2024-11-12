@@ -9,7 +9,7 @@ const assets = [
     { name: "Aset Tak Berwujud", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/komputer.png?raw=true", value: 700.25 },
     { name: "Aset Lain Lain", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/rusaknian.png?raw=true", value: 800.45 },
     { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png?raw=true", value: 1000.99 },
-    { name: "Zonk", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/zonk.png?raw=true", value: -2.93 } // Tambahkan Zonk
+    { name: "Zonk", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/zonk.png?raw=true", value: -2.93 }
 ];
 
 // Variabel untuk saldo
@@ -74,17 +74,14 @@ function startQuiz() {
         return;
     }
 
-    // Memilih pertanyaan baru yang belum digunakan
     let randomIndex;
     do {
         randomIndex = Math.floor(Math.random() * questions.length);
     } while (usedQuestions.includes(randomIndex));
 
-    // Tambah indeks ke pertanyaan yang sudah digunakan
     usedQuestions.push(randomIndex);
     const selectedQuestion = questions[randomIndex];
 
-    // Mengacak pilihan jawaban
     const shuffledOptions = selectedQuestion.options.map((option, index) => ({ option, index }))
         .sort(() => Math.random() - 0.5);
 
@@ -158,7 +155,6 @@ function spin(times) {
                 return;
             }
 
-            // Hitung kemunculan setiap aset
             let counts = {};
             slots.forEach(slot => {
                 const asset = getRandomAsset();
@@ -166,7 +162,6 @@ function spin(times) {
                 counts[asset.name] = (counts[asset.name] || 0) + 1;
             });
 
-            // Setelah putaran terakhir, atau jika spin dihentikan, hitung kemenangan
             if (i === times - 1 || stopSpinRequested) {
                 stopSpinAnimation(slots);
                 calculateWin(counts);
