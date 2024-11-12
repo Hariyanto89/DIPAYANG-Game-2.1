@@ -12,18 +12,16 @@ const assets = [
     { name: "Zonk", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/zonk.png?raw=true", value: -2.93 }
 ];
 
-// Variabel untuk saldo dan pengaturan spin
+// Variabel untuk saldo
 let saldo = 10000.00;
-const costPerSpin = 33.33;
+const costPerSpin = 33.33; // Biaya per putaran
 let isSpinning = false;
 let spinIntervals = [];
-let usedQuestions = [];
 
 // Update tampilan saldo di HTML
 function updateStatus() {
-    document.getElementById("saldo").innerText = `Saldo: ${saldo.toFixed(2)}`;
+    document.getElementById("saldo").innerText = Saldo: ${saldo.toFixed(2)};
 }
-
 // Mulai musik setelah ada interaksi pengguna
 document.addEventListener("click", function() {
     const backgroundMusic = document.getElementById("background-music");
@@ -68,13 +66,11 @@ function startQuiz() {
     { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset gedung dan bangunan?", options: ["Dengan fitur kurva yang menyajikan detail kondisi dan nilai aset", "Dengan fitur pemesanan ruangan"], answer: 0 },
 ];
 
-// Cek apakah semua pertanyaan sudah digunakan
     if (questions.length === usedQuestions.length) {
         alert("Tidak ada lagi pertanyaan.");
         return;
     }
 
-    // Memilih pertanyaan baru yang belum digunakan
     let randomIndex;
     do {
         randomIndex = Math.floor(Math.random() * questions.length);
@@ -83,14 +79,13 @@ function startQuiz() {
     usedQuestions.push(randomIndex);
     const selectedQuestion = questions[randomIndex];
 
-    // Mengacak pilihan jawaban
     const shuffledOptions = selectedQuestion.options.map((option, index) => ({ option, index }))
         .sort(() => Math.random() - 0.5);
 
     const userAnswer = prompt(
-        `${selectedQuestion.question}\n` +
-        shuffledOptions.map((opt, i) => `${i + 1}. ${opt.option}`).join("\n") +
-        `\nKetik nomor jawaban Anda:`
+        ${selectedQuestion.question}\n +
+        shuffledOptions.map((opt, i) => ${i + 1}. ${opt.option}).join("\n") +
+        \nKetik nomor jawaban Anda:
     );
 
     if (userAnswer === null) {
@@ -100,7 +95,7 @@ function startQuiz() {
 
     const userAnswerIndex = shuffledOptions[parseInt(userAnswer) - 1]?.index;
     if (userAnswerIndex === selectedQuestion.answer) {
-        saldo += 1000; // Tambah saldo jika jawaban benar
+        saldo += 1000;
         updateStatus();
         alert("Jawaban benar! Anda mendapatkan saldo tambahan sebesar 1000.");
     } else {
@@ -108,7 +103,29 @@ function startQuiz() {
     }
 }
 
-// Fungsi untuk memutar mesin slot sesuai jumlah putaran yang dipilih
+// Fungsi animasi spin
+function startSpinAnimation(slots) {
+    slots.forEach(slot => slot.classList.add("shake"));
+}
+
+// Hentikan animasi spin
+function stopSpinAnimation(slots) {
+    slots.forEach(slot => slot.classList.remove("shake"));
+}
+
+// Fungsi untuk mendapatkan aset acak
+function getRandomAsset() {
+    return assets[Math.floor(Math.random() * assets.length)];
+}
+
+// Fungsi untuk memperbarui tampilan slot
+function updateSlotAppearance(slot, asset) {
+    slot.style.backgroundImage = url(${asset.img});
+    slot.setAttribute("data-asset", asset.name);
+    slot.innerText = "";
+}
+
+// Fungsi untuk spin slot dengan jumlah putaran berdasarkan pilihan tombol
 function spin(spinType) {
     let times;
     switch (spinType) {
@@ -130,6 +147,7 @@ function spin(spinType) {
 
     if (isSpinning) return;
     isSpinning = true;
+    stopSpinRequested = false;
     let totalBetCost = costPerSpin * times;
 
     if (saldo < totalBetCost) {
@@ -144,47 +162,31 @@ function spin(spinType) {
 
     for (let i = 0; i < times; i++) {
         const intervalId = setTimeout(() => {
-            let counts = {};
+            if (stopSpinRequested) {
+                clearAllSpinIntervals();
+                stopSpinAnimation(slots);
+                updateStatus();
+                isSpinning = false;
+                return;
+            }
 
-            // Menampilkan aset acak pada setiap slot
+            let counts = {};
             slots.forEach(slot => {
                 const asset = getRandomAsset();
                 updateSlotAppearance(slot, asset);
                 counts[asset.name] = (counts[asset.name] || 0) + 1;
             });
 
-            // Setelah putaran terakhir, hitung kemenangan
-            if (i === times - 1) {
+            if (i === times - 1 || stopSpinRequested) {
                 stopSpinAnimation(slots);
                 calculateWin(counts);
                 updateStatus();
                 isSpinning = false;
             }
-        }, i * 200); // Interval 200 ms per putaran untuk efek visual
+        }, i * 1000);
 
         spinIntervals.push(intervalId);
     }
-}
-
-// Fungsi animasi slot
-function startSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.add("spin"));
-}
-
-// Fungsi untuk menghentikan animasi spin
-function stopSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.remove("spin"));
-}
-
-// Fungsi untuk mendapatkan aset acak
-function getRandomAsset() {
-    return assets[Math.floor(Math.random() * assets.length)];
-}
-
-// Fungsi untuk memperbarui tampilan slot
-function updateSlotAppearance(slot, asset) {
-    slot.style.backgroundImage = `url(${asset.img})`;
-    slot.setAttribute("data-asset", asset.name);
 }
 
 // Fungsi menghitung kemenangan berdasarkan aturan
@@ -192,12 +194,14 @@ function calculateWin(counts) {
     let winAmount = 0;
     let message = "";
 
+    // Pengurangan saldo jika Zonk muncul
     if (counts["Zonk"]) {
         let zonkPenalty = counts["Zonk"] * 2.93;
         winAmount -= zonkPenalty;
-        message += `Zonk muncul ${counts["Zonk"]}x! Saldo berkurang ${zonkPenalty.toFixed(2)} poin.\n`;
+        message += Zonk muncul ${counts["Zonk"]}x! Saldo berkurang ${zonkPenalty.toFixed(2)} poin.\n;
     }
 
+    // Aturan Kemenangan lainnya
     if (counts["Tanah"] === 10) {
         winAmount += 1000;
         message += "Tanah muncul 10x! Anda menang 1000 poin.\n";
@@ -219,5 +223,27 @@ function calculateWin(counts) {
     alert(message || "Tidak ada kemenangan. Coba lagi!");
 }
 
+// Fungsi untuk menghentikan semua spin
+function clearAllSpinIntervals() {
+    spinIntervals.forEach(intervalId => clearTimeout(intervalId));
+    spinIntervals = [];
+}
+
+// Fungsi untuk tombol Stop Spin
+function stopSpin() {
+    stopSpinRequested = true;
+    clearAllSpinIntervals();
+    stopSpinAnimation(Array.from(document.querySelectorAll(".slot")));
+    isSpinning = false;
+}
+
 // Update status pertama kali
 updateStatus();
+
+// Mulai musik setelah ada interaksi pengguna
+document.addEventListener("click", function() {
+    const backgroundMusic = document.getElementById("background-music");
+    if (backgroundMusic.paused) {
+        backgroundMusic.play().catch(error => console.log("Gagal memutar musik: " + error));
+    }
+}, { once: true });
