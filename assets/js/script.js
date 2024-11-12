@@ -1,4 +1,4 @@
-/ Daftar aset dengan gambar dari GitHub dan nilai
+// Daftar aset dengan gambar dari GitHub dan nilai
 const assets = [
     { name: "Tanah", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/a.png?raw=true", value: 100.50 },
     { name: "Peralatan dan Mesin", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/b.png?raw=true", value: 200.75 },
@@ -12,11 +12,12 @@ const assets = [
     { name: "Zonk", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/zonk.png?raw=true", value: -2.93 }
 ];
 
-// Variabel untuk saldo
+// Variabel untuk saldo dan pengaturan spin
 let saldo = 10000.00;
-const costPerSpin = 33.33; // Biaya per putaran
+const costPerSpin = 33.33;
 let isSpinning = false;
 let spinIntervals = [];
+let usedQuestions = [];
 
 // Update tampilan saldo di HTML
 function updateStatus() {
@@ -67,11 +68,13 @@ function startQuiz() {
     { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset gedung dan bangunan?", options: ["Dengan fitur kurva yang menyajikan detail kondisi dan nilai aset", "Dengan fitur pemesanan ruangan"], answer: 0 },
 ];
 
+// Cek apakah semua pertanyaan sudah digunakan
     if (questions.length === usedQuestions.length) {
         alert("Tidak ada lagi pertanyaan.");
         return;
     }
 
+    // Memilih pertanyaan baru yang belum digunakan
     let randomIndex;
     do {
         randomIndex = Math.floor(Math.random() * questions.length);
@@ -80,6 +83,7 @@ function startQuiz() {
     usedQuestions.push(randomIndex);
     const selectedQuestion = questions[randomIndex];
 
+    // Mengacak pilihan jawaban
     const shuffledOptions = selectedQuestion.options.map((option, index) => ({ option, index }))
         .sort(() => Math.random() - 0.5);
 
@@ -96,7 +100,7 @@ function startQuiz() {
 
     const userAnswerIndex = shuffledOptions[parseInt(userAnswer) - 1]?.index;
     if (userAnswerIndex === selectedQuestion.answer) {
-        saldo += 1000;
+        saldo += 1000; // Tambah saldo jika jawaban benar
         updateStatus();
         alert("Jawaban benar! Anda mendapatkan saldo tambahan sebesar 1000.");
     } else {
@@ -104,46 +108,24 @@ function startQuiz() {
     }
 }
 
-// Fungsi untuk mendapatkan aset acak
-function getRandomAsset() {
-    return assets[Math.floor(Math.random() * assets.length)];
-}
-
-// Fungsi untuk memperbarui tampilan slot
-function updateSlotAppearance(slot, asset) {
-    slot.style.backgroundImage = `url(${asset.img})`;
-    slot.setAttribute("data-asset", asset.name);
-    slot.innerText = "";
-}
-
-// Fungsi animasi spin
-function startSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.add("shake"));
-}
-
-// Fungsi untuk menghentikan animasi spin
-function stopSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.remove("shake"));
-}
-
-// Fungsi untuk spin slot dengan jumlah putaran berdasarkan pilihan tombol
+// Fungsi untuk memutar mesin slot sesuai jumlah putaran yang dipilih
 function spin(spinType) {
     let times;
     switch (spinType) {
         case 1:
-            times = 5;   // Untuk "Spin 1x", jalankan 5 putaran
+            times = 5;
             break;
         case 3:
-            times = 15;  // Untuk "Spin 3x", jalankan 15 putaran
+            times = 15;
             break;
         case 5:
-            times = 25;  // Untuk "Spin 5x", jalankan 25 putaran
+            times = 25;
             break;
         case 'max':
-            times = 200; // Untuk "Max Bet", jalankan 200 putaran
+            times = 200;
             break;
         default:
-            times = 1;   // Default, jika nilai spinType tidak dikenal
+            times = 1;
     }
 
     if (isSpinning) return;
@@ -158,39 +140,55 @@ function spin(spinType) {
 
     saldo -= totalBetCost;
     const slots = Array.from(document.querySelectorAll(".slot"));
-    updateStatus();
     startSpinAnimation(slots);
 
-    // Fungsi rekursif untuk mengatur setiap spin dan memberikan jeda di antaranya
-    let currentSpin = 0;
-    function performSpin() {
-        if (currentSpin >= times) {
-            stopSpinAnimation(slots);
-            calculateWin();
-            isSpinning = false;
-            return;
-        }
+    for (let i = 0; i < times; i++) {
+        const intervalId = setTimeout(() => {
+            let counts = {};
 
-        slots.forEach(slot => {
-            const asset = getRandomAsset();
-            updateSlotAppearance(slot, asset);
-        });
-        
-        currentSpin++;
-        setTimeout(performSpin, 100); // Jeda 100ms antara setiap putaran
+            // Menampilkan aset acak pada setiap slot
+            slots.forEach(slot => {
+                const asset = getRandomAsset();
+                updateSlotAppearance(slot, asset);
+                counts[asset.name] = (counts[asset.name] || 0) + 1;
+            });
+
+            // Setelah putaran terakhir, hitung kemenangan
+            if (i === times - 1) {
+                stopSpinAnimation(slots);
+                calculateWin(counts);
+                updateStatus();
+                isSpinning = false;
+            }
+        }, i * 200); // Interval 200 ms per putaran untuk efek visual
+
+        spinIntervals.push(intervalId);
     }
+}
 
-    performSpin();
+// Fungsi animasi slot
+function startSpinAnimation(slots) {
+    slots.forEach(slot => slot.classList.add("spin"));
+}
+
+// Fungsi untuk menghentikan animasi spin
+function stopSpinAnimation(slots) {
+    slots.forEach(slot => slot.classList.remove("spin"));
+}
+
+// Fungsi untuk mendapatkan aset acak
+function getRandomAsset() {
+    return assets[Math.floor(Math.random() * assets.length)];
+}
+
+// Fungsi untuk memperbarui tampilan slot
+function updateSlotAppearance(slot, asset) {
+    slot.style.backgroundImage = `url(${asset.img})`;
+    slot.setAttribute("data-asset", asset.name);
 }
 
 // Fungsi menghitung kemenangan berdasarkan aturan
-function calculateWin() {
-    const counts = {};
-    document.querySelectorAll(".slot").forEach(slot => {
-        const assetName = slot.getAttribute("data-asset");
-        counts[assetName] = (counts[assetName] || 0) + 1;
-    });
-
+function calculateWin(counts) {
     let winAmount = 0;
     let message = "";
 
@@ -219,27 +217,7 @@ function calculateWin() {
 
     saldo += winAmount;
     alert(message || "Tidak ada kemenangan. Coba lagi!");
-    updateStatus();
 }
-
-// Fungsi untuk menghentikan semua spin
-function clearAllSpinIntervals() {
-    spinIntervals.forEach(intervalId => clearTimeout(intervalId));
-    spinIntervals = [];
-}
-
-// Fungsi untuk tombol Stop Spin
-function stopSpin() {
-    clearAllSpinIntervals();
-    stopSpinAnimation(Array.from(document.querySelectorAll(".slot")));
-    isSpinning = false;
-}
-
-// Tombol-tombol Spin
-document.getElementById("spin1x").addEventListener("click", () => spin(1));   // Tombol spin 1x, jalankan 5 putaran
-document.getElementById("spin3x").addEventListener("click", () => spin(3));  // Tombol spin 3x, jalankan 15 putaran
-document.getElementById("spin5x").addEventListener("click", () => spin(5));  // Tombol spin 5x, jalankan 25 putaran
-document.getElementById("maxBet").addEventListener("click", () => spin('max')); // Tombol max bet, jalankan 200 putaran
 
 // Update status pertama kali
 updateStatus();
