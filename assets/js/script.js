@@ -14,7 +14,7 @@ const assets = [
 
 // Variabel untuk saldo
 let saldo = 10000.00;
-const costPerSpin = 500;
+const costPerSpin = 33.33; // Biaya per putaran yang disesuaikan
 let isSpinning = false;
 let stopSpinRequested = false;
 let spinIntervals = [];
@@ -128,8 +128,26 @@ function updateSlotAppearance(slot, asset) {
     slot.innerText = "";
 }
 
-// Fungsi untuk spin slot
-function spin(times) {
+// Fungsi untuk spin slot dengan jumlah putaran berdasarkan pilihan tombol
+function spin(spinType) {
+    let times;
+    switch (spinType) {
+        case 1:
+            times = 5;
+            break;
+        case 3:
+            times = 15;
+            break;
+        case 5:
+            times = 25;
+            break;
+        case 'max':
+            times = 200;
+            break;
+        default:
+            times = 1;
+    }
+
     if (isSpinning) return;
     isSpinning = true;
     stopSpinRequested = false;
@@ -224,3 +242,11 @@ function stopSpin() {
 
 // Update status pertama kali
 updateStatus();
+
+// Mulai musik setelah ada interaksi pengguna
+document.addEventListener("click", function() {
+    const backgroundMusic = document.getElementById("background-music");
+    if (backgroundMusic.paused) {
+        backgroundMusic.play().catch(error => console.log("Gagal memutar musik: " + error));
+    }
+}, { once: true });
