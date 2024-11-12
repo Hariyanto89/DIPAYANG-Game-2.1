@@ -52,7 +52,7 @@
 
         <button onclick="startQuiz()">Isi Saldo (Kuis)</button>
     </div>
-
+    <div id="start-message" class="start-message">Mulai</div>
     <script src="script.js"></script>
 </body>
 </html>
