@@ -1,4 +1,4 @@
-// Daftar aset dengan gambar dari GitHub dan nilai
+/ Daftar aset dengan gambar dari GitHub dan nilai
 const assets = [
     { name: "Tanah", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/a.png?raw=true", value: 100.50 },
     { name: "Peralatan dan Mesin", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/b.png?raw=true", value: 200.75 },
@@ -14,11 +14,9 @@ const assets = [
 
 // Variabel untuk saldo
 let saldo = 10000.00;
-const costPerSpin = 33.33; // Biaya per putaran yang disesuaikan
+const costPerSpin = 33.33; // Biaya per putaran
 let isSpinning = false;
-let stopSpinRequested = false;
 let spinIntervals = [];
-let usedQuestions = [];
 
 // Update tampilan saldo di HTML
 function updateStatus() {
@@ -106,16 +104,6 @@ function startQuiz() {
     }
 }
 
-// Fungsi animasi spin
-function startSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.add("shake"));
-}
-
-// Hentikan animasi spin
-function stopSpinAnimation(slots) {
-    slots.forEach(slot => slot.classList.remove("shake"));
-}
-
 // Fungsi untuk mendapatkan aset acak
 function getRandomAsset() {
     return assets[Math.floor(Math.random() * assets.length)];
@@ -128,29 +116,38 @@ function updateSlotAppearance(slot, asset) {
     slot.innerText = "";
 }
 
+// Fungsi animasi spin
+function startSpinAnimation(slots) {
+    slots.forEach(slot => slot.classList.add("shake"));
+}
+
+// Fungsi untuk menghentikan animasi spin
+function stopSpinAnimation(slots) {
+    slots.forEach(slot => slot.classList.remove("shake"));
+}
+
 // Fungsi untuk spin slot dengan jumlah putaran berdasarkan pilihan tombol
 function spin(spinType) {
     let times;
     switch (spinType) {
         case 1:
-            times = 5;
+            times = 5;   // Untuk "Spin 1x", jalankan 5 putaran
             break;
         case 3:
-            times = 15;
+            times = 15;  // Untuk "Spin 3x", jalankan 15 putaran
             break;
         case 5:
-            times = 25;
+            times = 25;  // Untuk "Spin 5x", jalankan 25 putaran
             break;
         case 'max':
-            times = 200;
+            times = 200; // Untuk "Max Bet", jalankan 200 putaran
             break;
         default:
-            times = 1;
+            times = 1;   // Default, jika nilai spinType tidak dikenal
     }
 
     if (isSpinning) return;
     isSpinning = true;
-    stopSpinRequested = false;
     let totalBetCost = costPerSpin * times;
 
     if (saldo < totalBetCost) {
@@ -161,50 +158,48 @@ function spin(spinType) {
 
     saldo -= totalBetCost;
     const slots = Array.from(document.querySelectorAll(".slot"));
+    updateStatus();
     startSpinAnimation(slots);
 
-    for (let i = 0; i < times; i++) {
-        const intervalId = setTimeout(() => {
-            if (stopSpinRequested) {
-                clearAllSpinIntervals();
-                stopSpinAnimation(slots);
-                updateStatus();
-                isSpinning = false;
-                return;
-            }
+    // Fungsi rekursif untuk mengatur setiap spin dan memberikan jeda di antaranya
+    let currentSpin = 0;
+    function performSpin() {
+        if (currentSpin >= times) {
+            stopSpinAnimation(slots);
+            calculateWin();
+            isSpinning = false;
+            return;
+        }
 
-            let counts = {};
-            slots.forEach(slot => {
-                const asset = getRandomAsset();
-                updateSlotAppearance(slot, asset);
-                counts[asset.name] = (counts[asset.name] || 0) + 1;
-            });
-
-            if (i === times - 1 || stopSpinRequested) {
-                stopSpinAnimation(slots);
-                calculateWin(counts);
-                updateStatus();
-                isSpinning = false;
-            }
-        }, i * 1000);
-
-        spinIntervals.push(intervalId);
+        slots.forEach(slot => {
+            const asset = getRandomAsset();
+            updateSlotAppearance(slot, asset);
+        });
+        
+        currentSpin++;
+        setTimeout(performSpin, 100); // Jeda 100ms antara setiap putaran
     }
+
+    performSpin();
 }
 
 // Fungsi menghitung kemenangan berdasarkan aturan
-function calculateWin(counts) {
+function calculateWin() {
+    const counts = {};
+    document.querySelectorAll(".slot").forEach(slot => {
+        const assetName = slot.getAttribute("data-asset");
+        counts[assetName] = (counts[assetName] || 0) + 1;
+    });
+
     let winAmount = 0;
     let message = "";
 
-    // Pengurangan saldo jika Zonk muncul
     if (counts["Zonk"]) {
         let zonkPenalty = counts["Zonk"] * 2.93;
         winAmount -= zonkPenalty;
         message += `Zonk muncul ${counts["Zonk"]}x! Saldo berkurang ${zonkPenalty.toFixed(2)} poin.\n`;
     }
 
-    // Aturan Kemenangan lainnya
     if (counts["Tanah"] === 10) {
         winAmount += 1000;
         message += "Tanah muncul 10x! Anda menang 1000 poin.\n";
@@ -224,6 +219,7 @@ function calculateWin(counts) {
 
     saldo += winAmount;
     alert(message || "Tidak ada kemenangan. Coba lagi!");
+    updateStatus();
 }
 
 // Fungsi untuk menghentikan semua spin
@@ -234,19 +230,16 @@ function clearAllSpinIntervals() {
 
 // Fungsi untuk tombol Stop Spin
 function stopSpin() {
-    stopSpinRequested = true;
     clearAllSpinIntervals();
     stopSpinAnimation(Array.from(document.querySelectorAll(".slot")));
     isSpinning = false;
 }
 
+// Tombol-tombol Spin
+document.getElementById("spin1x").addEventListener("click", () => spin(1));   // Tombol spin 1x, jalankan 5 putaran
+document.getElementById("spin3x").addEventListener("click", () => spin(3));  // Tombol spin 3x, jalankan 15 putaran
+document.getElementById("spin5x").addEventListener("click", () => spin(5));  // Tombol spin 5x, jalankan 25 putaran
+document.getElementById("maxBet").addEventListener("click", () => spin('max')); // Tombol max bet, jalankan 200 putaran
+
 // Update status pertama kali
 updateStatus();
-
-// Mulai musik setelah ada interaksi pengguna
-document.addEventListener("click", function() {
-    const backgroundMusic = document.getElementById("background-music");
-    if (backgroundMusic.paused) {
-        backgroundMusic.play().catch(error => console.log("Gagal memutar musik: " + error));
-    }
-}, { once: true });
