@@ -53,6 +53,8 @@
         <button onclick="startQuiz()">Isi Saldo (Kuis)</button>
     </div>
     <div id="start-message" class="start-message">Mulai</div>
+    - [Walkthrough Game DIPAYANG](pages/walkthrough.md)
+    - [Pengenalan DIPAYANG](pages/pengenalan.md)
     <script src="script.js"></script>
 </body>
 </html>
