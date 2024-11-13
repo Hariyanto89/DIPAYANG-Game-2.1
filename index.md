@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Mesin Slot DIPAYANG</h1>
+         <h1 class="center-title">Mesin Slot DIPAYANG</h1>
 
         <!-- Suara Latar Belakang -->
         <audio id="background-music" src="https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/pookatori-and-friends-kevin-macleod-main-version-24903-04-07.mp3" autoplay loop></audio>
