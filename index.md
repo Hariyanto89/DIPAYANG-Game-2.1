@@ -55,4 +55,8 @@
     <div id="start-message" class="start-message">Mulai</div>
     <script src="script.js"></script>
 </body>
+<nav>
+    <a href="pages/walkthrough.html">Walkthrough Game</a> |
+    <a href="pages/pengenalan.html">Pengenalan DIPAYANG</a>
+</nav>
 </html>
