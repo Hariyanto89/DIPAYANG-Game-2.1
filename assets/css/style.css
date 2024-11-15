@@ -26,6 +26,7 @@ body {
     width: 90%;
     max-width: 600px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px auto; /* Centering container */
 }
 
 /* Header */
@@ -46,14 +47,18 @@ body {
 /* Slot Machine Grid */
 .slot-machine {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    gap: 0; /* Remove any gap between items */
     margin: 20px 0;
+    width: 100%; /* Ensuring grid takes full width */
+    max-width: 500px; /* Optional: Limiting max-width */
+    margin: 0 auto; /* Centering grid */
 }
 
+/* Slot */
 .slot {
-    width: 60px;
-    height: 60px;
+    width: 100%; /* Full width within the grid column */
+    height: 80px; /* Adjusted height for better fit */
     background-color: #ffcc00;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -113,7 +118,7 @@ nav a:hover {
 /* Responsiveness */
 @media (max-width: 768px) {
     .slot-machine {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, 1fr); /* 4 columns on medium screens */
     }
 
     #saldo {
@@ -121,8 +126,8 @@ nav a:hover {
     }
 
     .slot {
-        width: 50px;
-        height: 50px;
+        width: 100%; /* Ensuring each slot takes full width */
+        height: 60px;
         font-size: 1em;
     }
 
@@ -134,12 +139,12 @@ nav a:hover {
 
 @media (max-width: 480px) {
     .slot-machine {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on small screens */
     }
 
     .slot {
-        width: 40px;
-        height: 40px;
+        width: 100%; /* Ensuring each slot takes full width */
+        height: 50px;
         font-size: 0.9em;
     }
 
@@ -155,4 +160,38 @@ nav a:hover {
     nav {
         font-size: 1em;
     }
+}
+
+/* Slot animation (for when spin occurs) */
+@keyframes spin {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+/* Animation for when the slot is spinning */
+.slot.spinning {
+    animation: spin 1s ease-in-out infinite;
+}
+
+/* Optional: Style for images inside slots (if used for symbols) */
+.slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Makes sure the image fits without distortion */
+    border-radius: 5px;
+}
+
+/* Optional: Style for active buttons */
+.button-group button.active {
+    background-color: #ff9a00;
+    transform: scale(1.05);
+}
+
+/* Optional: Audio controls */
+audio {
+    display: none; /* Hide audio player if it's just for background sound */
 }
