@@ -68,17 +68,20 @@ function startQuiz() {
         return;
     }
 
+    // Memilih pertanyaan secara acak dari yang belum digunakan
     const randomQuestion = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
     const userAnswer = prompt(`${randomQuestion.question}\nPilihan:\n${randomQuestion.options.join('\n')}`);
 
+    // Cek jawaban pengguna
     if (parseInt(userAnswer) === randomQuestion.answer) {
         alert("Jawaban Anda benar! Anda mendapatkan saldo tambahan.");
-        saldo += 50;
-        usedQuestions.push(randomQuestion.question);
+        saldo += 50; // Menambahkan saldo jika jawaban benar
+        usedQuestions.push(randomQuestion.question); // Menambahkan pertanyaan yang sudah dijawab ke daftar usedQuestions
     } else {
         alert("Jawaban Anda salah. Coba lagi!");
     }
 
+    // Update tampilan saldo
     updateStatus();
 }
 
@@ -98,29 +101,34 @@ function spinWheel() {
     updateStatus();
     isSpinning = true;
 
-    // Animasi putaran
+    // Mulai animasi putaran
     const spinInterval = setInterval(() => {
         const randomAsset = assets[Math.floor(Math.random() * assets.length)];
         document.getElementById("asset-image").src = randomAsset.img;
         document.getElementById("asset-name").innerText = randomAsset.name;
     }, 100);
 
+    // Setelah putaran selesai, tentukan hasil akhir
     setTimeout(() => {
         clearInterval(spinInterval);
 
-        // Setelah putaran selesai, tentukan hasil akhir
+        // Pilih aset acak sebagai hasil putaran
         const spinResult = assets[Math.floor(Math.random() * assets.length)];
 
         // Update gambar dan nama aset
         document.getElementById("asset-image").src = spinResult.img;
         document.getElementById("asset-name").innerText = spinResult.name;
 
-        // Update nilai saldo
+        // Update nilai saldo berdasarkan hasil putaran
         saldo += spinResult.value;
 
         // Update status saldo setelah putaran selesai
         updateStatus();
         isSpinning = false;
+
+        // Tampilkan pesan hasil spin
+        const resultMessage = spinResult.name === "Zonk" ? "Sayang sekali! Anda mendapat Zonk!" : `Anda mendapatkan: ${spinResult.name} (Nilai: ${spinResult.value.toFixed(2)})`;
+        alert(resultMessage);
     }, 2000); // Durasi putaran
 }
 
