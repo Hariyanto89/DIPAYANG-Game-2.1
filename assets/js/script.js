@@ -98,19 +98,30 @@ function spinWheel() {
     updateStatus();
     isSpinning = true;
 
-    const spinResult = assets[Math.floor(Math.random() * assets.length)];
-
-    // Update gambar dan nama aset
-    document.getElementById("asset-image").src = spinResult.img;
-    document.getElementById("asset-name").innerText = spinResult.name;
-
-    // Update nilai saldo
-    saldo += spinResult.value;
+    // Animasi putaran
+    const spinInterval = setInterval(() => {
+        const randomAsset = assets[Math.floor(Math.random() * assets.length)];
+        document.getElementById("asset-image").src = randomAsset.img;
+        document.getElementById("asset-name").innerText = randomAsset.name;
+    }, 100);
 
     setTimeout(() => {
-        isSpinning = false;
+        clearInterval(spinInterval);
+
+        // Setelah putaran selesai, tentukan hasil akhir
+        const spinResult = assets[Math.floor(Math.random() * assets.length)];
+
+        // Update gambar dan nama aset
+        document.getElementById("asset-image").src = spinResult.img;
+        document.getElementById("asset-name").innerText = spinResult.name;
+
+        // Update nilai saldo
+        saldo += spinResult.value;
+
+        // Update status saldo setelah putaran selesai
         updateStatus();
-    }, 2000);
+        isSpinning = false;
+    }, 2000); // Durasi putaran
 }
 
 // Event listener untuk tombol spin dan kuis
