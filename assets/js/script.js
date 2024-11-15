@@ -1,4 +1,4 @@
-// Daftar aset dengan gambar dari GitHub dan nilai
+// Daftar aset dengan gambar dan nilai
 const assets = [
     { name: "Tanah", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/a.png?raw=true", value: 100.50 },
     { name: "Peralatan dan Mesin", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/b.png?raw=true", value: 200.75 },
@@ -20,25 +20,23 @@ let isSpinning = false; // Status apakah mesin sedang berputar
 let usedQuestions = []; // Daftar pertanyaan yang sudah dijawab
 const spinDuration = 2000; // Durasi spin dalam milidetik
 
-// Update tampilan saldo di HTML
+// Fungsi untuk memperbarui tampilan saldo
 function updateStatus() {
     const saldoElement = document.getElementById("saldo");
     if (saldoElement) {
         saldoElement.innerText = `Saldo: ${saldo.toFixed(2)}`;
+    } else {
+        console.error("Element saldo tidak ditemukan.");
     }
 }
 
 // Mulai musik setelah ada interaksi pengguna pertama kali
-document.addEventListener(
-    "click",
-    function () {
-        const backgroundMusic = document.getElementById("background-music");
-        if (backgroundMusic && backgroundMusic.paused) {
-            backgroundMusic.play().catch((error) => console.log("Gagal memutar musik: " + error));
-        }
-    },
-    { once: true }
-);
+document.addEventListener("click", function () {
+    const backgroundMusic = document.getElementById("background-music");
+    if (backgroundMusic && backgroundMusic.paused) {
+        backgroundMusic.play().catch((error) => console.error("Gagal memutar musik: ", error));
+    }
+}, { once: true });
 
 // Fungsi untuk memulai kuis pengisian saldo
 function startQuiz() {
@@ -53,97 +51,83 @@ function startQuiz() {
         { question: "Bagaimana DIPAYANG memastikan data yang diinput dan disimpan aman?", options: ["Menggunakan enkripsi data dan kontrol akses", "Menggunakan password sederhana"], answer: 0 },
         { question: "Apa yang dimaksud dengan RKBMD dalam konteks DIPAYANG?", options: ["Rencana Kebutuhan Barang Milik Daerah", "Rencana Keuangan Barang Milik Daerah"], answer: 0 },
         { question: "Fitur apa yang ditambahkan dalam update terbaru DIPAYANG untuk memantau aktivitas pengguna?", options: ["Changelog", "Dashboard"], answer: 1 },
-        { question: "Apa tujuan dari penambahan fitur changelog dalam DIPAYANG?", options: ["Memantau setiap aktivitas pengguna secara real-time", "Menambah fitur permainan"], answer: 0 },
-        { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset daerah?", options: ["Dengan fitur changelog yang memantau seluruh aktivitas pengguna", "Dengan fitur permainan"], answer: 0 },
-        { question: "Apa yang dimaksud dengan KIBAR dalam DIPAYANG?", options: ["Kartu Inventaris Barang Aset Daerah", "Kartu Identitas Barang"], answer: 0 },
-        { question: "Bagaimana DIPAYANG membantu dalam pengelolaan RKBMD?", options: ["Memungkinkan penginputan dan rekapitulasi data secara digital", "Menyediakan template dokumen"], answer: 0 },
-        { question: "Apa manfaat dari fitur rekapitulasi fisik RKBMD dalam DIPAYANG?", options: ["Memudahkan pengunduhan dan verifikasi data usulan RKBMD", "Menyediakan laporan keuangan"], answer: 1 },
-        { question: "Mengapa OPD diwajibkan membuat laporan RKBMD NIHIL jika tidak memiliki usulan?", options: ["Sebagai bukti kepatuhan administrasi", "Untuk mendapatkan anggaran tambahan"], answer: 0 },
-        { question: "Bagaimana DIPAYANG membantu dalam pengelolaan aset kendaraan dinas?", options: ["Dengan fitur pajak kendaraan yang memantau status pembayaran pajak", "Dengan fitur pemesanan kendaraan"], answer: 0 },
-        { question: "Apa fungsi dari sub-menu 'Lunas Pajak' dalam DIPAYANG?", options: ["Menampilkan daftar kendaraan yang telah melunasi pajak", "Menampilkan daftar kendaraan yang belum membayar pajak"], answer: 0 },
-        { question: "Bagaimana fitur 'Ingat Pajak' dalam DIPAYANG membantu pengelola aset?", options: ["Memberikan notifikasi saat kendaraan mendekati jatuh tempo pembayaran pajak", "Mengingatkan jadwal servis kendaraan"], answer: 0 },
-        { question: "Apa tujuan dari penambahan fitur kurva dalam DIPAYANG?", options: ["Menyajikan gambaran detail terkait kondisi dan nilai aset", "Menyediakan grafik keuangan"], answer: 0 },
-        { question: "Bagaimana fitur cetak rekapitulasi RKBMD dalam format Excel dan PDF membantu OPD?", options: ["Mempermudah penyusunan laporan yang akurat dan sesuai standar", "Menyediakan template presentasi"], answer: 0 },
-        { question: "Apa manfaat dari fitur QR Code untuk setiap aset dalam DIPAYANG?", options: ["Menghubungkan langsung dengan database pusat", "Menyediakan akses ke media sosial"], answer: 0 },
-        { question: "Bagaimana DIPAYANG membantu dalam perencanaan pengelolaan aset daerah?", options: ["Dengan fitur analitik dan laporan pengelolaan yang mendalam", "Dengan menyediakan data umum saja"], answer: 0 }
     ];
 
-    // Memilih pertanyaan yang belum digunakan
-    const availableQuestions = questions.filter((q) => !usedQuestions.includes(q.question));
+    const availableQuestions = questions.filter(q => !usedQuestions.includes(q.question));
     if (availableQuestions.length === 0) {
         alert("Kuis sudah selesai!");
         return;
     }
 
-    // Pilih pertanyaan secara acak
     const randomQuestion = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
-    const userAnswer = prompt(
-        `${randomQuestion.question}\nPilihan:\n${randomQuestion.options
-            .map((option, index) => `${index}: ${option}`)
-            .join("\n")}`
-    );
+    const userAnswer = prompt(`${randomQuestion.question}\nPilihan:\n${randomQuestion.options.map((option, index) => `${index}: ${option}`).join("\n")}`);
 
     if (parseInt(userAnswer) === randomQuestion.answer) {
-        alert("Jawaban Anda benar! Anda mendapatkan saldo tambahan.");
-        saldo += 50; // Tambah saldo jika jawaban benar
-        usedQuestions.push(randomQuestion.question); // Simpan pertanyaan ke daftar digunakan
+        alert("Jawaban benar! Anda mendapatkan saldo tambahan.");
+        saldo += 50;
+        usedQuestions.push(randomQuestion.question);
     } else {
-        alert("Jawaban Anda salah. Coba lagi!");
+        alert("Jawaban salah. Coba lagi!");
     }
 
     updateStatus();
 }
 
-// Fungsi putar roda (spin)
-function spinWheel() {
+// Fungsi untuk memutar roda slot
+function spin(times) {
     if (isSpinning) {
-        alert("Sedang dalam putaran, coba lagi nanti.");
+        alert("Mesin sedang berputar, tunggu sebentar.");
         return;
     }
 
-    if (saldo < costPerSpin) {
-        alert("Saldo tidak mencukupi untuk melakukan spin.");
+    if (saldo < costPerSpin * times) {
+        alert("Saldo tidak cukup untuk spin ini.");
         return;
     }
 
-    saldo -= costPerSpin;
-    updateStatus();
     isSpinning = true;
+    saldo -= costPerSpin * times;
+    updateStatus();
 
     const slots = document.querySelectorAll(".slot img");
-
-    // Mulai animasi slot
     const spinInterval = setInterval(() => {
-        slots.forEach((slot) => {
+        slots.forEach(slot => {
             const randomAsset = assets[Math.floor(Math.random() * assets.length)];
             slot.src = randomAsset.img;
             slot.alt = randomAsset.name;
         });
     }, 100);
 
-    // Hasil akhir setelah spin selesai
     setTimeout(() => {
         clearInterval(spinInterval);
-
         let totalValue = 0;
-        slots.forEach((slot) => {
+
+        slots.forEach(slot => {
             const finalAsset = assets[Math.floor(Math.random() * assets.length)];
             slot.src = finalAsset.img;
             slot.alt = finalAsset.name;
-            totalValue += finalAsset.value; // Tambahkan nilai ke total
+            totalValue += finalAsset.value;
         });
 
-        saldo += totalValue; // Tambahkan total nilai ke saldo
+        saldo += totalValue;
         updateStatus();
         isSpinning = false;
 
         alert(`Spin selesai! Anda mendapatkan total nilai: ${totalValue.toFixed(2)}`);
-    }, spinDuration);
+    }, spinDuration * times);
 }
 
-// Event listener untuk tombol spin dan kuis
-document.getElementById("spin-button")?.addEventListener("click", spinWheel);
-document.getElementById("quiz-button")?.addEventListener("click", startQuiz);
+// Event listener untuk tombol
+document.querySelector(".button-group").addEventListener("click", (e) => {
+    if (e.target.tagName === "BUTTON") {
+        if (e.target.innerText.includes("Spin")) {
+            const spinCount = parseInt(e.target.innerText.match(/\d+/)[0]);
+            spin(spinCount);
+        } else if (e.target.innerText.includes("Isi Saldo")) {
+            startQuiz();
+        }
+    }
+});
 
 // Update saldo saat halaman dimuat
 updateStatus();
