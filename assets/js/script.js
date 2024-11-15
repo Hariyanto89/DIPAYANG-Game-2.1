@@ -13,25 +13,32 @@ const assets = [
     { name: "PING", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/GAME.png?raw=true", value: 900.30 }
 ];
 
-// Variabel untuk saldo
+// Variabel untuk saldo dan pengaturan awal
 let saldo = 10000.00;
 const costPerSpin = 33.33; // Biaya per putaran
-let isSpinning = false;
-let usedQuestions = [];
-let winningSpin = "";
+let isSpinning = false; // Status apakah mesin sedang berputar
+let usedQuestions = []; // Daftar pertanyaan yang sudah dijawab
+const spinDuration = 2000; // Durasi spin dalam milidetik
 
 // Update tampilan saldo di HTML
 function updateStatus() {
-    document.getElementById("saldo").innerText = `Saldo: ${saldo.toFixed(2)}`;
+    const saldoElement = document.getElementById("saldo");
+    if (saldoElement) {
+        saldoElement.innerText = `Saldo: ${saldo.toFixed(2)}`;
+    }
 }
 
-// Mulai musik setelah ada interaksi pengguna
-document.addEventListener("click", function() {
-    const backgroundMusic = document.getElementById("background-music");
-    if (backgroundMusic.paused) {
-        backgroundMusic.play().catch(error => console.log("Gagal memutar musik: " + error));
-    }
-}, { once: true });
+// Mulai musik setelah ada interaksi pengguna pertama kali
+document.addEventListener(
+    "click",
+    function () {
+        const backgroundMusic = document.getElementById("background-music");
+        if (backgroundMusic && backgroundMusic.paused) {
+            backgroundMusic.play().catch((error) => console.log("Gagal memutar musik: " + error));
+        }
+    },
+    { once: true }
+);
 
 // Fungsi untuk memulai kuis pengisian saldo
 function startQuiz() {
@@ -61,31 +68,33 @@ function startQuiz() {
         { question: "Bagaimana DIPAYANG membantu dalam perencanaan pengelolaan aset daerah?", options: ["Dengan fitur analitik dan laporan pengelolaan yang mendalam", "Dengan menyediakan data umum saja"], answer: 0 }
     ];
 
-    // Memilih pertanyaan secara acak
-    const availableQuestions = questions.filter(q => !usedQuestions.includes(q.question));
+    // Memilih pertanyaan yang belum digunakan
+    const availableQuestions = questions.filter((q) => !usedQuestions.includes(q.question));
     if (availableQuestions.length === 0) {
         alert("Kuis sudah selesai!");
         return;
     }
 
-    // Memilih pertanyaan secara acak dari yang belum digunakan
+    // Pilih pertanyaan secara acak
     const randomQuestion = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
-    const userAnswer = prompt(`${randomQuestion.question}\nPilihan:\n${randomQuestion.options.join('\n')}`);
+    const userAnswer = prompt(
+        `${randomQuestion.question}\nPilihan:\n${randomQuestion.options
+            .map((option, index) => `${index}: ${option}`)
+            .join("\n")}`
+    );
 
-    // Cek jawaban pengguna
     if (parseInt(userAnswer) === randomQuestion.answer) {
         alert("Jawaban Anda benar! Anda mendapatkan saldo tambahan.");
-        saldo += 50; // Menambahkan saldo jika jawaban benar
-        usedQuestions.push(randomQuestion.question); // Menambahkan pertanyaan yang sudah dijawab ke daftar usedQuestions
+        saldo += 50; // Tambah saldo jika jawaban benar
+        usedQuestions.push(randomQuestion.question); // Simpan pertanyaan ke daftar digunakan
     } else {
         alert("Jawaban Anda salah. Coba lagi!");
     }
 
-    // Update tampilan saldo
     updateStatus();
 }
 
-// Fungsi putar roda
+// Fungsi putar roda (spin)
 function spinWheel() {
     if (isSpinning) {
         alert("Sedang dalam putaran, coba lagi nanti.");
@@ -101,40 +110,40 @@ function spinWheel() {
     updateStatus();
     isSpinning = true;
 
-    // Mulai animasi putaran
+    const slots = document.querySelectorAll(".slot img");
+
+    // Mulai animasi slot
     const spinInterval = setInterval(() => {
-        const randomAsset = assets[Math.floor(Math.random() * assets.length)];
-        document.getElementById("asset-image").src = randomAsset.img;
-        document.getElementById("asset-name").innerText = randomAsset.name;
+        slots.forEach((slot) => {
+            const randomAsset = assets[Math.floor(Math.random() * assets.length)];
+            slot.src = randomAsset.img;
+            slot.alt = randomAsset.name;
+        });
     }, 100);
 
-    // Setelah putaran selesai, tentukan hasil akhir
+    // Hasil akhir setelah spin selesai
     setTimeout(() => {
         clearInterval(spinInterval);
 
-        // Pilih aset acak sebagai hasil putaran
-        const spinResult = assets[Math.floor(Math.random() * assets.length)];
+        let totalValue = 0;
+        slots.forEach((slot) => {
+            const finalAsset = assets[Math.floor(Math.random() * assets.length)];
+            slot.src = finalAsset.img;
+            slot.alt = finalAsset.name;
+            totalValue += finalAsset.value; // Tambahkan nilai ke total
+        });
 
-        // Update gambar dan nama aset
-        document.getElementById("asset-image").src = spinResult.img;
-        document.getElementById("asset-name").innerText = spinResult.name;
-
-        // Update nilai saldo berdasarkan hasil putaran
-        saldo += spinResult.value;
-
-        // Update status saldo setelah putaran selesai
+        saldo += totalValue; // Tambahkan total nilai ke saldo
         updateStatus();
         isSpinning = false;
 
-        // Tampilkan pesan hasil spin
-        const resultMessage = spinResult.name === "Zonk" ? "Sayang sekali! Anda mendapat Zonk!" : `Anda mendapatkan: ${spinResult.name} (Nilai: ${spinResult.value.toFixed(2)})`;
-        alert(resultMessage);
-    }, 2000); // Durasi putaran
+        alert(`Spin selesai! Anda mendapatkan total nilai: ${totalValue.toFixed(2)}`);
+    }, spinDuration);
 }
 
 // Event listener untuk tombol spin dan kuis
-document.getElementById("spin-button").addEventListener("click", spinWheel);
-document.getElementById("quiz-button").addEventListener("click", startQuiz);
+document.getElementById("spin-button")?.addEventListener("click", spinWheel);
+document.getElementById("quiz-button")?.addEventListener("click", startQuiz);
 
-// Update status saldo pada awal
+// Update saldo saat halaman dimuat
 updateStatus();
