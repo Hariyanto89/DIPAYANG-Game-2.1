@@ -13,32 +13,32 @@ const assets = [
     { name: "PING", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/GAME.png?raw=true", value: 900.30 }
 ];
 
-// Variabel untuk saldo dan pengaturan awal
+// Variabel untuk saldo
 let saldo = 10000.00;
-const costPerSpin = 33.33; // Biaya per putaran
-let isSpinning = false; // Status apakah mesin sedang berputar
-let usedQuestions = []; // Daftar pertanyaan yang sudah dijawab
+const costPerSpin = 33.33;
 const spinDuration = 2000; // Durasi spin dalam milidetik
+let isSpinning = false;
+let usedQuestions = [];
 
-// Fungsi untuk memperbarui tampilan saldo
+// Fungsi memperbarui saldo
 function updateStatus() {
     const saldoElement = document.getElementById("saldo");
     if (saldoElement) {
         saldoElement.innerText = `Saldo: ${saldo.toFixed(2)}`;
-    } else {
-        console.error("Element saldo tidak ditemukan.");
     }
 }
 
-// Mulai musik setelah ada interaksi pengguna pertama kali
-document.addEventListener("click", function () {
-    const backgroundMusic = document.getElementById("background-music");
-    if (backgroundMusic && backgroundMusic.paused) {
-        backgroundMusic.play().catch((error) => console.error("Gagal memutar musik: ", error));
-    }
-}, { once: true });
+// Fungsi inisialisasi gambar awal
+function initializeSlots() {
+    const slots = document.querySelectorAll(".slot img");
+    slots.forEach((slot, index) => {
+        const asset = assets[index % assets.length];
+        slot.src = asset.img;
+        slot.alt = asset.name;
+    });
+}
 
-// Fungsi untuk memulai kuis pengisian saldo
+// Fungsi memulai kuis
 function startQuiz() {
     const questions = [
         { question: "Apa kepanjangan dari DIPAYANG?", options: ["Digitalisasi Pengamanan Aset Kepahiang", "Digitalisasi Pengelolaan Aset Kepahiang"], answer: 1 },
@@ -73,25 +73,14 @@ function startQuiz() {
     updateStatus();
 }
 
-// Fungsi inisialisasi gambar awal ke slot
-function initializeSlots() {
-    const slots = document.querySelectorAll(".slot img");
-    slots.forEach((slot, index) => {
-        const asset = assets[index % assets.length]; // Rotasi gambar
-        slot.src = asset.img; // Masukkan URL gambar
-        slot.alt = asset.name; // Teks alternatif
-    });
-}
-
-// Fungsi untuk memutar roda slot
 function spin(times) {
     if (isSpinning) {
-        alert("Mesin sedang berputar, tunggu sebentar.");
+        alert("Sedang berputar!");
         return;
     }
 
     if (saldo < costPerSpin * times) {
-        alert("Saldo tidak cukup untuk spin ini.");
+        alert("Saldo tidak cukup.");
         return;
     }
 
@@ -111,32 +100,23 @@ function spin(times) {
     setTimeout(() => {
         clearInterval(spinInterval);
         let totalValue = 0;
-
         slots.forEach(slot => {
             const finalAsset = assets[Math.floor(Math.random() * assets.length)];
             slot.src = finalAsset.img;
             slot.alt = finalAsset.name;
             totalValue += finalAsset.value;
         });
-
         saldo += totalValue;
-        updateStatus();
         isSpinning = false;
-
-        alert(`Spin selesai! Anda mendapatkan total nilai: ${totalValue.toFixed(2)}`);
+        updateStatus();
+        alert(`Spin selesai! Total: ${totalValue.toFixed(2)}`);
     }, spinDuration * times);
 }
 
-// Event listener untuk tombol
-document.querySelector(".button-group").addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-        if (e.target.innerText.includes("Spin")) {
-            const spinCount = parseInt(e.target.innerText.match(/\d+/)[0]);
-            spin(spinCount);
-        } else if (e.target.innerText.includes("Isi Saldo")) {
-            startQuiz();
-        }
-    }
+// Event Listener
+document.addEventListener("DOMContentLoaded", () => {
+    initializeSlots();
+    updateStatus();
 });
 
 // Update saldo saat halaman dimuat
