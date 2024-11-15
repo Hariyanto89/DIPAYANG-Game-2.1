@@ -10,7 +10,7 @@ const assets = [
     { name: "Aset Lain Lain", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/rusaknian.png?raw=true", value: 800.45 },
     { name: "Properti Investasi", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/nADFG.png?raw=true", value: 1000.99 },
     { name: "Zonk", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/zonk.png?raw=true", value: -2.93 },
-    { name: "Gedung dan Bangunan", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/GAME.png?raw=true", value: 900.30 }
+    { name: "PING", img: "https://github.com/Hariyanto89/DIPAYANG-Game-2.1/raw/main/material/GAME.png?raw=true", value: 900.30 }
 ];
 
 // Variabel untuk saldo
@@ -142,7 +142,7 @@ function spin(spinType) {
             times = 200;
             break;
         default:
-            times = 1;
+            times = 5;
     }
 
     if (isSpinning) return;
@@ -192,20 +192,20 @@ function calculateWin(counts) {
     }
 
     if (counts["Tanah"] === 10) {
-        winAmount += 1000;
-        message += "Tanah muncul 10x! Anda menang 1000 poin.\n";
+        winAmount += 52;
+        message += "Tanah muncul 10x! Anda menang 52 poin.\n";
     }
     if (counts["Properti Investasi"] === 10) {
-        winAmount += 5000;
-        message += "Properti Investasi muncul 10x! Jackpot 5000 poin!\n";
+        winAmount += 1530;
+        message += "Properti Investasi muncul 10x! Jackpot 1530 poin!\n";
     }
     if (Object.values(counts).every(count => count === 20)) {
-        winAmount += 5000;
-        message += "Semua aset muncul 20x! Anda menang 5000 poin!\n";
+        winAmount += 165;
+        message += "Semua aset muncul 20x! Anda menang 165 poin!\n";
     }
     if (Object.values(counts).every(count => count < 10)) {
-        winAmount -= 1000;
-        message += "Tidak ada aset yang muncul 10x. Anda kehilangan 1000 poin.\n";
+        winAmount -= 666;
+        message += "Tidak ada aset yang muncul 10x. Anda kehilangan 666 poin.\n";
     }
 
     saldo += winAmount;
