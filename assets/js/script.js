@@ -73,6 +73,16 @@ function startQuiz() {
     updateStatus();
 }
 
+// Fungsi inisialisasi gambar awal ke slot
+function initializeSlots() {
+    const slots = document.querySelectorAll(".slot img");
+    slots.forEach((slot, index) => {
+        const asset = assets[index % assets.length]; // Rotasi gambar
+        slot.src = asset.img; // Masukkan URL gambar
+        slot.alt = asset.name; // Teks alternatif
+    });
+}
+
 // Fungsi untuk memutar roda slot
 function spin(times) {
     if (isSpinning) {
